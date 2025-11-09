@@ -176,6 +176,7 @@
     </header>
 
     <main>
+
       <section class="hero" aria-label="Intro">
         <div class="hero-aurora"></div>
         <div class="card tilt fade-in-up stagger-2" data-tilt>
@@ -227,6 +228,58 @@
           </div>
         </aside>
       </section>
+      <!-- Summary cards -->
+      <section class="cards" aria-label="Core Competencies">
+        <div class="card tilt" data-tilt>
+          <h3>Core Competencies</h3>
+          <div class="skills" style="margin-top:10px">
+            <div class="pill">LLM Deployment</div><div class="pill">Fine-tuning</div><div class="pill">RAG</div><div class="pill">Agent Frameworks</div>
+            <div class="pill">Prompt Engineering</div><div class="pill">CI/CD</div><div class="pill">Observability</div><div class="pill">Vector DBs (FAISS/Qdrant)</div>
+          </div>
+        </div>
+        <div class="card tilt" data-tilt>
+          <h3>Technical Skills</h3>
+          <div style="margin-top:10px">
+            Python · PyTorch · HuggingFace · LangChain · Azure AI · GCP Vertex · FAISS · Qdrant · Chroma · Docker · Kubernetes · GitHub Actions · FastAPI · Flask
+          </div>
+        </div>
+        <div class="card tilt" data-tilt>
+          <h3>Certifications</h3>
+          <div style="margin-top:10px;color:var(--muted);font-size:14px">
+            <br>· Generative AI Leader (Google) 
+            <br>· Professional ML Engineer (Google) 
+            <br>· Stanford Advanced Learning Algorithms
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section class="experience" aria-label="Experience">
+        <div class="card tilt" data-tilt>
+          <h4>AI/ML Engineer — LTIMindtree</h4>
+          <div class="hint">Hyderabad · Sep 2023 – Present</div>
+          <p style="color:var(--muted)">Leading design and deployment of multi-agent AI systems and RAG pipelines using LangChain, Azure AI Foundry, and vector databases. Implemented CI/CD, containerized services, observability dashboards and improved production metrics across latency and reliability.</p>
+          <ul style="margin-top:12px;color:var(--muted)">
+            <li>Spearheaded multi-agent Response AI reducing query resolution time by 95% and improving satisfaction by 92%.</li>
+            <li>Built RAG ingestion pipeline achieving 90% faster retrieval and 85% accuracy improvements.</li>
+            <li>Designed observability dashboards, reducing failure incidents by 91% and optimized token cost per query by 90%.</li>
+          </ul>
+        </div>
+
+        <aside class="card tilt" data-tilt>
+          <h4>Education & Achievements</h4>
+          <div class="hint">B.Sc. Computer Science — Adikavi Nannayya University, 2023</div>
+          <div style="margin-top:10px;color:var(--muted)">
+            <strong>Awards:</strong> 
+            <br>· Super Crew Award @ LTIMindtree 
+            <br>· 4‑Star Appraisal Performer 
+            <br>· Hackathon winner 
+            <br><strong>Achievements:</strong> 
+            <br>· Top 1% HackerRank.
+          </div>
+        </aside>
+      </section>
+
 
       <!-- KPI Impact Section -->
       <section id="impact" class="impact">
@@ -448,7 +501,7 @@
     import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai?client";
 
     /* ====== EDIT ONLY THIS LINE ====== */
-    const GEMINI_API_KEY = "AIzaSyBckPuJalEtUI_dkHfN0DsJeKFaJsR0nAY";
+    const GEMINI_API_KEY = "YOUR_API_KEY_HERE";
     /* ================================= */
 
     const GEMINI_MODEL = "gemini-2.5-flash";
