@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Akella Sri Satya Vijay — Portfolio</title>
+  <meta name="description" content="Akella Sri Satya Vijay · AI/ML Engineer · Multi-Agent Systems · GenAI · RAG">
+  <style>
+    :root{
+      --bg:#0b0d12;
+      --card:#11151f;
+      --muted:#9aa4b2;
+      --text:#e8edf3;
+      --accent:#7dd3fc;
+      --accent-2:#a78bfa;
+      --ring: rgba(125, 211, 252, 0.45);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      background: radial-gradient(1200px 700px at 20% -10%, #162033 0%, transparent 70%),
+                  radial-gradient(1000px 600px at 100% 0%, #1a1530 0%, transparent 65%),
+                  var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      overflow-x:hidden;
+    }
+    /* Particle canvas sits behind */
+    #bg-canvas{
+      position: fixed; inset: 0; z-index: 0;
+    }
+    /* Layout */
+    .container{position:relative; z-index:1; max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px;}
+    header{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:8px 0 24px; border-bottom:1px solid rgba(255,255,255,.06);}
+    .brand{display:flex; align-items:center; gap:12px;}
+    .avatar{
+      width:42px; height:42px; border-radius:50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display:grid; place-items:center; font-weight:700; color:#0b0d12;
+      box-shadow: 0 0 0 2px #0b0d12, 0 0 0 3px var(--accent);
+    }
+    .brand h1{font-size:18px; margin:0; letter-spacing:.4px}
+    nav a{
+      color:var(--muted); text-decoration:none; margin-left:18px; font-size:14px;
+    }
+    nav a:hover{color:#fff}
+    .btn{
+      appearance:none; border:none; border-radius:12px; padding:12px 16px;
+      background:linear-gradient(135deg, var(--accent), var(--accent-2));
+      color:#0b0d12; font-weight:700; cursor:pointer; box-shadow:0 10px 30px rgba(124,204,255,.15);
+    }
+    .btn.ghost{
+      background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.12);
+      box-shadow:none;
+    }
+    /* Hero */
+    .hero{display:grid; grid-template-columns: 1.1fr 0.9fr; gap:32px; align-items:center; padding-top:32px;}
+    .hero h2{font-size:40px; line-height:1.15; margin:0 0 12px;}
+    .hero p{color:var(--muted); margin:0 0 22px; font-size:16px}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      background: rgba(167, 139, 250, .12); border:1px solid rgba(167, 139, 250, .25); color:#e9e5ff; font-size:12px; font-weight:600; letter-spacing:.3px;
+    }
+    .cta{display:flex; gap:12px; flex-wrap:wrap}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px; padding:20px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 40px rgba(0,0,0,.35);
+    }
+    /* Floating form */
+    .contact{margin-top:36px}
+    .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+    .field{position:relative}
+    .input{
+      width:100%; padding:18px 14px 14px; background:var(--card); color:var(--text);
+      border:1px solid rgba(255,255,255,.12); border-radius:12px; outline:none; font-size:15px;
+      transition:.2s border, .2s box-shadow;
+    }
+    .input:focus{border-color:var(--accent); box-shadow: 0 0 0 4px var(--ring)}
+    .textarea{min-height:120px; resize:vertical}
+    .label{
+      position:absolute; left:12px; top:14px; color:var(--muted); pointer-events:none; transition:.18s;
+      background:var(--card); padding:0 6px; border-radius:6px;
+    }
+    .input:focus + .label,
+    .input:not(:placeholder-shown) + .label{
+      top:-10px; font-size:12px; color:var(--accent);
+    }
+    .footer{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:10px}
+    .small{color:var(--muted); font-size:12px}
+    /* Sections */
+    .section{margin-top:40px; display:grid; grid-template-columns: repeat(3, 1fr); gap:16px}
+    .section .card h3{margin:0 0 8px; font-size:18px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; letter-spacing:.3px; color:#cbd5e1}
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr; gap:18px}
+      .form-grid{grid-template-columns:1fr}
+      nav{display:none}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="avatar">SV</div>
+        <h1>Akella Sri Satya Vijay</h1>
+      </div>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="btn ghost" id="resumeBtn">Download Resume</button>
+    </header>
+
+    <section class="hero" id="about">
+      <div>
+        <span class="badge">AI/ML Engineer · Multi‑Agent Systems · GenAI · RAG</span>
+        <h2>Shipping production‑grade AI that moves metrics.</h2>
+        <p>
+          I architect multi‑agent systems, Retrieval‑Augmented Generation (RAG) pipelines,
+          and automation for Azure/GCP—focused on reliability, latency, and business impact.
+        </p>
+        <div class="cta">
+          <a class="btn" id="connectLinkedIn" href="https://www.linkedin.com/in/satyavijay/" target="_blank" rel="noopener">Connect on LinkedIn</a>
+          <a class="btn ghost" href="#contact">Contact Me</a>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="margin:0 0 8px">Highlights</h3>
+        <ul class="mono" style="margin:8px 0 0; padding-left:18px; line-height:1.6">
+          <li>Multi‑Agent orchestration with tools & guardrails</li>
+          <li>Sub‑second RAG at scale: caching, ANN, chunking strategy</li>
+          <li>MLOps: evals, observability, rollout safety</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="work" aria-label="Selected Projects">
+      <div class="card">
+        <h3>Agentic Learning Assistant</h3>
+        <p class="small">Multi‑agent tutor with planner, critic, and content tools.</p>
+      </div>
+      <div class="card">
+        <h3>Low‑Latency RAG</h3>
+        <p class="small">1000 QPS design: vector cache, query planner, speculative fetch.</p>
+      </div>
+      <div class="card">
+        <h3>Metric Framework</h3>
+        <p class="small">Coverage · Granularity · Intent Alignment · Interpretability.</p>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-label="Contact">
+      <div class="card">
+        <h3 style="margin:0 0 14px">Contact Me</h3>
+        <form action="https://formsubmit.co/akellasrisatyavijay2@gmail.com" method="POST" id="contactForm" novalidate>
+          <!-- FormSubmit options -->
+          <input type="hidden" name="_subject" value="New Portfolio Contact — Satya">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Satya! Your message has been received.">
+          <input type="hidden" name="_template" value="table">
+          <!-- If you have a thank-you page, set it here -->
+          <!-- <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html"> -->
+
+          <div class="form-grid">
+            <div class="field">
+              <input class="input" type="text" name="name" id="name" placeholder=" " required/>
+              <label class="label" for="name">Your name</label>
+            </div>
+            <div class="field">
+              <input class="input" type="email" name="email" id="email" placeholder=" " required/>
+              <label class="label" for="email">Your email</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <textarea class="input textarea" name="message" id="message" placeholder=" " required></textarea>
+            <label class="label" for="message">Your message</label>
+          </div>
+
+          <div class="footer">
+            <button class="btn" type="submit">Send Message</button>
+            <span class="small">You’ll get an email, and I’ll receive your details.</span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="small" style="margin-top:28px; opacity:.8">
+      © <span id="year"></span> Akella Sri Satya Vijay. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    // ====== Config ======
+    const RESUME_URL = "https://drive.usercontent.google.com/download?id=1N9SC-cyHicZQe-9xohpLRCT6hL4XK2W1&export=download&authuser=1&confirm=t&uuid=e6be391f-8133-43f9-b505-dabab6d90fba&at=ALWLOp7dJfa61KFhaIn_nAfF2ZK7:1762661039899";
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Resume button (manual)
+    document.getElementById('resumeBtn').addEventListener('click', () => triggerDownload());
+
+    // Auto-download on first visit
+    window.addEventListener('load', () => {
+      // avoid multiple downloads when navigating via anchors
+      if (!sessionStorage.getItem('resumeDownloaded')) {
+        setTimeout(triggerDownload, 600);
+        sessionStorage.setItem('resumeDownloaded', '1');
+      }
+    });
+
+    function triggerDownload(){
+      const a = document.createElement('a');
+      a.href = RESUME_URL;
+      a.download = "Akella-Sri-Satya-Vijay-Resume.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    // ====== Minimal Particles Background (no dependencies) ======
+    (function(){
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let w, h, dpi = window.devicePixelRatio || 1;
+
+      const PARTICLES = 80;
+      const SPEED = 0.25;
+      const LINK_DIST = 140;
+      const nodes = [];
+
+      function resize(){
+        w = canvas.clientWidth = window.innerWidth;
+        h = canvas.clientHeight = window.innerHeight;
+        canvas.width = Math.floor(w * dpi);
+        canvas.height = Math.floor(h * dpi);
+        ctx.scale(dpi, dpi);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function rand(min, max){return Math.random()*(max-min)+min}
+
+      for(let i=0;i<PARTICLES;i++){
+        nodes.push({
+          x: rand(0, w), y: rand(0, h),
+          vx: rand(-SPEED, SPEED), vy: rand(-SPEED, SPEED),
+          r: rand(1.2, 2.2)
+        });
+      }
+
+      let mx = -9999, my = -9999; // mouse
+      window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+      window.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
+
+      function step(){
+        ctx.clearRect(0, 0, w, h);
+
+        // update + draw points
+        ctx.globalAlpha = 0.9;
+        for(const n of nodes){
+          n.x += n.vx; n.y += n.vy;
+          if(n.x<0||n.x>w) n.vx*=-1;
+          if(n.y<0||n.y>h) n.vy*=-1;
+
+          // gentle mouse attraction
+          const dx = mx - n.x, dy = my - n.y;
+          const d2 = dx*dx + dy*dy;
+          if(d2 < 120*120){
+            n.vx += dx * 0.00002;
+            n.vy += dy * 0.00002;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = "rgba(173,216,230,.8)";
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
+          ctx.fill();
+        }
+
+        // draw links
+        ctx.lineWidth = 1;
+        for(let i=0;i<nodes.length;i++){
+          for(let j=i+1;j<nodes.length;j++){
+            const a = nodes[i], b = nodes[j];
+            const dx = a.x-b.x, dy = a.y-b.y;
+            const dist = Math.hypot(dx, dy);
+            if(dist < LINK_DIST){
+              const alpha = 1 - (dist / LINK_DIST);
+              ctx.strokeStyle = `rgba(125, 211, 252, ${alpha * 0.45})`;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(step);
+      }
+      step();
+    })();
+  </script>
+</body>
+</html>
