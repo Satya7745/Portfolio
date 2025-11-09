@@ -434,7 +434,7 @@
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_autoresponse" value="Thanks for contacting Satya! I received your message and will reply shortly.">
           <input type="hidden" name="_template" value="table">
-
+        
           <div class="form-grid">
             <div class="field">
               <input class="input" type="text" name="name" id="name" placeholder=" " required minlength="2" />
@@ -457,7 +457,7 @@
               <div class="error" id="err-organization">Please enter your organization / company.</div>
             </div>
           </div>
-
+        
           <div style="margin-top:12px">
             <div class="field">
               <textarea class="input textarea" name="message" id="message" placeholder=" " required minlength="5"></textarea>
@@ -465,11 +465,14 @@
               <div class="error" id="err-message">Please enter a short message.</div>
             </div>
           </div>
-
+        
           <div class="submit-row">
             <button class="btn-lg" type="submit">Send Message</button>
             <div class="hint">No sign-in required. You'll also get an auto-reply.</div>
           </div>
+        
+          <!-- ✅ Success / Error message will appear here -->
+          <p id="formMessage" style="display:none; margin-top:10px; font-size:14px;"></p>
         </form>
       </section>
 
