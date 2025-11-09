@@ -1,220 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Akella Sri Satya Vijay — Portfolio</title>
   <meta name="description" content="Akella Sri Satya Vijay · AI/ML Engineer · Multi-Agent Systems · GenAI · RAG">
   <style>
+    /* ---- Theme ---- */
     :root{
-      --bg:#0b0d12;
-      --card:#11151f;
+      --bg:#06070a;
+      --panel: rgba(255,255,255,0.03);
       --muted:#9aa4b2;
-      --text:#e8edf3;
-      --accent:#7dd3fc;
-      --accent-2:#a78bfa;
-      --ring: rgba(125, 211, 252, 0.45);
+      --text:#e6eef8;
+      --accent1:#60efff;
+      --accent2:#b685ff;
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --error:#ff6b6b;
+      --ok:#60d394;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--text);
-      background: radial-gradient(1200px 700px at 20% -10%, #162033 0%, transparent 70%),
-                  radial-gradient(1000px 600px at 100% 0%, #1a1530 0%, transparent 65%),
-                  var(--bg);
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
-      overflow-x:hidden;
+    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{background:linear-gradient(180deg,#041021 0%, #07101b 50%, #031018 100%); color:var(--text); -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+    a{color:inherit;text-decoration:none}
+    /* ---- Canvas ---- */
+    #bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+    .gradient-glow{position:fixed;inset:0;z-index:0;mix-blend-mode:screen;opacity:0.35;background:
+      radial-gradient(600px 600px at 10% 10%, rgba(96,239,255,0.08), transparent 12%),
+      radial-gradient(600px 600px at 90% 90%, rgba(182,133,255,0.06), transparent 12%);
     }
-    /* Particle canvas sits behind */
-    #bg-canvas{
-      position: fixed; inset: 0; z-index: 0;
-    }
-    /* Layout */
-    .container{position:relative; z-index:1; max-width: 1100px; margin: 0 auto; padding: 32px 20px 80px;}
-    header{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:8px 0 24px; border-bottom:1px solid rgba(255,255,255,.06);}
-    .brand{display:flex; align-items:center; gap:12px;}
-    .avatar{
-      width:42px; height:42px; border-radius:50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      display:grid; place-items:center; font-weight:700; color:#0b0d12;
-      box-shadow: 0 0 0 2px #0b0d12, 0 0 0 3px var(--accent);
-    }
-    .brand h1{font-size:18px; margin:0; letter-spacing:.4px}
-    nav a{
-      color:var(--muted); text-decoration:none; margin-left:18px; font-size:14px;
-    }
-    nav a:hover{color:#fff}
-    .btn{
-      appearance:none; border:none; border-radius:12px; padding:12px 16px;
-      background:linear-gradient(135deg, var(--accent), var(--accent-2));
-      color:#0b0d12; font-weight:700; cursor:pointer; box-shadow:0 10px 30px rgba(124,204,255,.15);
-    }
-    .btn.ghost{
-      background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.12);
-      box-shadow:none;
-    }
-    /* Hero */
-    .hero{display:grid; grid-template-columns: 1.1fr 0.9fr; gap:32px; align-items:center; padding-top:32px;}
-    .hero h2{font-size:40px; line-height:1.15; margin:0 0 12px;}
-    .hero p{color:var(--muted); margin:0 0 22px; font-size:16px}
-    .badge{
-      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
-      background: rgba(167, 139, 250, .12); border:1px solid rgba(167, 139, 250, .25); color:#e9e5ff; font-size:12px; font-weight:600; letter-spacing:.3px;
-    }
-    .cta{display:flex; gap:12px; flex-wrap:wrap}
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:16px; padding:20px;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 10px 40px rgba(0,0,0,.35);
-    }
-    /* Floating form */
-    .contact{margin-top:36px}
-    .form-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+    /* ---- Layout ---- */
+    .wrap{position:relative;z-index:1;max-width:1200px;margin:40px auto;padding:28px;}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0;}
+    .brand{display:flex;gap:16px;align-items:center}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:grid;place-items:center;font-weight:700;color:#021; font-size:20px;box-shadow:0 8px 30px rgba(0,0,0,0.6)}
+    h1{margin:0;font-size:22px;letter-spacing:0.3px}
+    .contact-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .chip{background:var(--glass);padding:8px 12px;border-radius:999px;font-size:13px;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
+
+    /* ---- Hero (bigger) ---- */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:18px;}
+    .hero-left{padding:26px;border-radius:18px;background:linear-gradient(180deg,var(--panel),transparent);box-shadow:0 20px 50px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);}
+    .kicker{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#031018;font-weight:700;margin-bottom:12px;font-size:13px}
+    .hero h2{font-size:46px;line-height:1.02;margin:8px 0 14px}
+    .lead{color:var(--muted);font-size:18px;margin-bottom:18px;max-width:70%}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+    .btn-lg{padding:14px 20px;border-radius:14px;background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;color:#021;font-weight:800;cursor:pointer;box-shadow:0 12px 30px rgba(96,239,255,0.06)}
+    .btn-outline{padding:12px 16px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);cursor:pointer}
+    /* side card */
+    .hero-right{padding:20px;border-radius:16px;background:linear-gradient(180deg,var(--panel),var(--glass-2));border:1px solid rgba(255,255,255,0.03);backdrop-filter:blur(6px)}
+    .profile-line{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+    .stat{font-weight:800;font-size:22px}
+
+    /* ---- Sections ---- */
+    section.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+    .card{padding:18px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 30px rgba(0,0,0,0.5);transition:transform .42s ease, box-shadow .3s}
+    .card:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(2,6,23,0.7)}
+    .card h3{margin:0 0 8px;font-size:18px}
+    .skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .pill{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,0.03);font-size:13px;border:1px solid rgba(255,255,255,0.02);color:var(--muted)}
+
+    /* ---- Experience ---- */
+    .experience{margin-top:34px;display:grid;grid-template-columns:2fr 1fr;gap:22px}
+    .exp-item{padding:20px;border-radius:12px;background:linear-gradient(180deg,var(--panel),transparent);border:1px solid rgba(255,255,255,0.03)}
+    .exp-item h4{margin:0 0 6px}
+    .exp-item .sub{color:var(--muted);font-size:14px;margin-bottom:12px}
+
+    /* ---- Projects list ---- */
+    .projects{display:grid;gap:12px}
+
+    /* ---- Contact form bigger ---- */
+    .contact-card{margin-top:28px;padding:22px;border-radius:14px;background:linear-gradient(180deg,var(--panel),transparent);border:1px solid rgba(255,255,255,0.03)}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     .field{position:relative}
-    .input{
-      width:100%; padding:18px 14px 14px; background:var(--card); color:var(--text);
-      border:1px solid rgba(255,255,255,.12); border-radius:12px; outline:none; font-size:15px;
-      transition:.2s border, .2s box-shadow;
-    }
-    .input:focus{border-color:var(--accent); box-shadow: 0 0 0 4px var(--ring)}
-    .textarea{min-height:120px; resize:vertical}
-    .label{
-      position:absolute; left:12px; top:14px; color:var(--muted); pointer-events:none; transition:.18s;
-      background:var(--card); padding:0 6px; border-radius:6px;
-    }
-    .input:focus + .label,
-    .input:not(:placeholder-shown) + .label{
-      top:-10px; font-size:12px; color:var(--accent);
-    }
-    .footer{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:10px}
-    .small{color:var(--muted); font-size:12px}
-    /* Sections */
-    .section{margin-top:40px; display:grid; grid-template-columns: repeat(3, 1fr); gap:16px}
-    .section .card h3{margin:0 0 8px; font-size:18px}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; letter-spacing:.3px; color:#cbd5e1}
-    /* Responsive */
-    @media (max-width: 900px){
-      .hero{grid-template-columns:1fr; gap:18px}
-      .form-grid{grid-template-columns:1fr}
-      nav{display:none}
-    }
+    .input{width:100%;padding:16px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text);font-size:15px;outline:none}
+    .input:focus{box-shadow:0 0 0 3px rgba(96,239,255,0.18);border-color:rgba(96,239,255,0.6)}
+    .textarea{min-height:140px;resize:vertical;padding:14px}
+    label.floater{position:absolute;left:12px;top:10px;color:var(--muted);pointer-events:none;transition:all .18s ease;background:transparent;padding:0 6px}
+    .input:focus + label.floater, .input:not(:placeholder-shown) + label.floater{top:-10px;font-size:12px;color:var(--accent1);background:transparent}
+    .submit-row{display:flex;align-items:center;gap:12px;margin-top:12px}
+    .hint{color:var(--muted);font-size:13px}
+    .error{color:var(--error);font-size:12px;margin-top:6px;display:none}
+    .ok{color:var(--ok);font-size:12px;margin-top:6px;display:none}
+
+    /* ---- Footer ---- */
+    footer{margin-top:36px;color:var(--muted);font-size:13px;padding-bottom:40px}
+
+    /* ---- Responsive ---- */
+    @media (max-width:1100px){ .hero{grid-template-columns:1fr} .cards{grid-template-columns:1fr 1fr} .experience{grid-template-columns:1fr} .wrap{padding:20px} }
+    @media (max-width:700px){ .cards{grid-template-columns:1fr} .kicker{display:inline-block} .lead{max-width:100%} .brand h1{font-size:18px} }
+
+    /* ---- Animations ---- */
+    .fade-in-up{opacity:0;transform:translateY(12px);animation:fadeUp .8s ease forwards}
+    .stagger-1{animation-delay:.12s}
+    .stagger-2{animation-delay:.22s}
+    .stagger-3{animation-delay:.34s}
+    @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+    .floaty{animation:floaty 6s ease-in-out infinite}
+    @keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-8px)}100%{transform:translateY(0)}}
   </style>
 </head>
 <body>
   <canvas id="bg-canvas"></canvas>
+  <div class="gradient-glow"></div>
 
-  <div class="container">
-    <header>
+  <div class="wrap">
+    <header class="fade-in-up stagger-1">
       <div class="brand">
-        <div class="avatar">SV</div>
-        <h1>Akella Sri Satya Vijay</h1>
-      </div>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <button class="btn ghost" id="resumeBtn">Download Resume</button>
-    </header>
-
-    <section class="hero" id="about">
-      <div>
-        <span class="badge">AI/ML Engineer · Multi‑Agent Systems · GenAI · RAG</span>
-        <h2>Shipping production‑grade AI that moves metrics.</h2>
-        <p>
-          I architect multi‑agent systems, Retrieval‑Augmented Generation (RAG) pipelines,
-          and automation for Azure/GCP—focused on reliability, latency, and business impact.
-        </p>
-        <div class="cta">
-          <a class="btn" id="connectLinkedIn" href="https://www.linkedin.com/in/satyavijay/" target="_blank" rel="noopener">Connect on LinkedIn</a>
-          <a class="btn ghost" href="#contact">Contact Me</a>
+        <div class="logo">SV</div>
+        <div>
+          <h1>Akella Sri Satya Vijay</h1>
+          <div style="color:var(--muted);font-size:13px">AI/ML Engineer · Multi-Agent Systems · GenAI</div>
         </div>
       </div>
-      <div class="card">
-        <h3 style="margin:0 0 8px">Highlights</h3>
-        <ul class="mono" style="margin:8px 0 0; padding-left:18px; line-height:1.6">
-          <li>Multi‑Agent orchestration with tools & guardrails</li>
-          <li>Sub‑second RAG at scale: caching, ANN, chunking strategy</li>
-          <li>MLOps: evals, observability, rollout safety</li>
-        </ul>
-      </div>
-    </section>
 
-    <section class="section" id="work" aria-label="Selected Projects">
-      <div class="card">
-        <h3>Agentic Learning Assistant</h3>
-        <p class="small">Multi‑agent tutor with planner, critic, and content tools.</p>
+      <div class="contact-links">
+        <div class="chip">+91 9391520600</div>
+        <a class="chip" href="mailto:akellasrisatyavijay2@gmail.com">akellasrisatyavijay2@gmail.com</a>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="chip" href="https://www.linkedin.com/in/satyavijay/" target="_blank">LinkedIn</a>
+          <a class="chip" href="https://github.com/Satya7745/" target="_blank">GitHub</a>
+          <a class="chip" href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank">LeetCode</a>
+        </div>
       </div>
-      <div class="card">
-        <h3>Low‑Latency RAG</h3>
-        <p class="small">1000 QPS design: vector cache, query planner, speculative fetch.</p>
-      </div>
-      <div class="card">
-        <h3>Metric Framework</h3>
-        <p class="small">Coverage · Granularity · Intent Alignment · Interpretability.</p>
-      </div>
-    </section>
+    </header>
 
-    <section class="contact" id="contact" aria-label="Contact">
-      <div class="card">
-        <h3 style="margin:0 0 14px">Contact Me</h3>
-        <form action="https://formsubmit.co/akellasrisatyavijay2@gmail.com" method="POST" id="contactForm" novalidate>
-          <!-- FormSubmit options -->
+    <main>
+      <section class="hero" aria-label="Intro">
+        <div class="hero-left card fade-in-up stagger-2">
+          <div class="kicker">Production AI · Multi-Agent · RAG</div>
+          <h2 class="floaty">Shipping production-grade AI that moves metrics.</h2>
+          <p class="lead">I build agentic systems, RAG pipelines, and automation that scale across Azure & Google Cloud — focused on latency, reliability, and measurable business outcomes.</p>
+          <div class="cta-row">
+            <button class="btn-lg" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Me</button>
+            <button class="btn-outline" id="downloadBtn">Download Resume</button>
+          </div>
+
+          <div style="margin-top:22px" class="fade-in-up stagger-3">
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <div class="pill">RAG & Retrieval</div>
+              <div class="pill">Agentic Orchestration</div>
+              <div class="pill">MLOps & CI/CD</div>
+              <div class="pill">Prompt Engineering</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-right fade-in-up stagger-3">
+          <div class="profile-line">
+            <div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:grid;place-items:center;font-weight:800;color:#021">SV</div>
+            <div>
+              <div style="font-weight:800">AI/ML Engineer at LTIMindtree</div>
+              <div style="color:var(--muted);font-size:13px;margin-top:6px">Hyderabad · Sep 2023 – Present</div>
+            </div>
+          </div>
+
+          <div style="margin-top:8px">
+            <div style="font-weight:700;color:var(--accent1)">Profile Summary</div>
+            <p style="margin-top:6px;color:var(--muted);font-size:14px">
+              2.5+ years designing and deploying multi-agent AI systems, RAG pipelines and automation across Azure & Google Cloud — delivering measurable business impact and production-ready reliability.
+            </p>
+          </div>
+
+          <div style="margin-top:12px;display:flex;justify-content:space-between;gap:12px">
+            <div style="text-align:center">
+              <div class="stat">95%</div>
+              <div class="hint">Query Accel.</div>
+            </div>
+            <div style="text-align:center">
+              <div class="stat">90%</div>
+              <div class="hint">RAG Accuracy</div>
+            </div>
+            <div style="text-align:center">
+              <div class="stat">75%</div>
+              <div class="hint">Infra Cost ↓</div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- Summary cards -->
+      <section class="cards" aria-label="Core Competencies">
+        <div class="card fade-in-up">
+          <h3>Core Competencies</h3>
+          <div class="skills" style="margin-top:10px">
+            <div class="pill">LLM Deployment</div><div class="pill">Fine-tuning</div><div class="pill">RAG</div><div class="pill">Agent Frameworks</div>
+            <div class="pill">Prompt Engineering</div><div class="pill">CI/CD</div><div class="pill">Observability</div><div class="pill">Vector DBs (FAISS/Qdrant)</div>
+          </div>
+        </div>
+        <div class="card fade-in-up">
+          <h3>Technical Skills</h3>
+          <div style="margin-top:10px" class="mono" id="techlist">
+            Python · PyTorch · HuggingFace · LangChain · Azure AI · GCP Vertex · FAISS · Qdrant · Chroma · Docker · Kubernetes · GitHub Actions · FastAPI · Flask
+          </div>
+        </div>
+        <div class="card fade-in-up">
+          <h3>Certifications</h3>
+          <div style="margin-top:10px;color:var(--muted);font-size:14px">
+            Generative AI Leader (Google) · Professional ML Engineer (Google) · Stanford Advanced Learning Algorithms
+          </div>
+        </div>
+      </section>
+
+      <!-- Experience -->
+      <section class="experience" aria-label="Experience">
+        <div class="exp-item fade-in-up">
+          <h4>AI/ML Engineer — LTIMindtree</h4>
+          <div class="sub">Hyderabad · Sep 2023 – Present</div>
+          <p style="color:var(--muted)">Leading design and deployment of multi-agent AI systems and RAG pipelines using LangChain, Azure AI Foundry, and vector databases. Implemented CI/CD, containerized services, observability dashboards and improved production metrics across latency and reliability.</p>
+          <ul style="margin-top:12px;color:var(--muted)">
+            <li>Spearheaded multi-agent Response AI reducing query resolution time by 95% and improving satisfaction by 92%.</li>
+            <li>Built RAG ingestion pipeline achieving 90% faster retrieval and 85% accuracy improvements.</li>
+            <li>Designed observability dashboards, reducing failure incidents by 91% and optimized token cost per query by 90%.</li>
+          </ul>
+        </div>
+
+        <aside class="exp-item fade-in-up">
+          <h4>Education & Achievements</h4>
+          <div class="sub">B.Sc. Computer Science — Adikavi Nannayya University, 2023</div>
+          <div style="margin-top:10px;color:var(--muted)">
+            <strong>Awards:</strong> Super Crew Award @ LTIMindtree · 4-Star Appraisal Performer · Hackathon winner · Top 1% HackerRank.
+          </div>
+        </aside>
+      </section>
+
+      <!-- Projects -->
+      <section style="margin-top:24px">
+        <h3 style="margin:0 0 12px">Selected Projects</h3>
+        <div class="projects">
+          <div class="card fade-in-up">
+            <h4>Response AI — Agentic Escalation Analysis</h4>
+            <div style="color:var(--muted);font-size:14px">Python · LangChain · Azure AI Foundry · RAG · KQL · Docker · CI/CD</div>
+            <p style="color:var(--muted);margin-top:8px">Multi-agent orchestrator that automates technical escalation analysis: entity extraction, KQL generation, log analysis and context-aware response generation.</p>
+          </div>
+
+          <div class="card fade-in-up">
+            <h4>KQL Auto-Query Agent</h4>
+            <div style="color:var(--muted);font-size:14px">LangChain · KQL · Vector DBs · Flask</div>
+            <p style="color:var(--muted);margin-top:8px">Translates natural language prompts to executable KQL queries and runs them via a secured API, enabling non-technical users to query data.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Form -->
+      <section id="contact" class="contact-card" aria-label="Contact form">
+        <h3>Contact Me</h3>
+        <p class="hint" style="margin-top:6px">Fill the form — your message will be emailed to me.</p>
+
+        <form action="https://formsubmit.co/akellasrisatyavijay2@gmail.com" method="POST" id="contactForm" class="fade-in-up" style="margin-top:12px" novalidate>
+          <!-- FormSubmit config -->
           <input type="hidden" name="_subject" value="New Portfolio Contact — Satya">
           <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_autoresponse" value="Thanks for reaching out to Satya! Your message has been received.">
+          <!-- Auto-reply to sender -->
+          <input type="hidden" name="_autoresponse" value="Thanks for contacting Satya! I received your message and will reply shortly.">
           <input type="hidden" name="_template" value="table">
-          <!-- If you have a thank-you page, set it here -->
-          <!-- <input type="hidden" name="_next" value="https://yourdomain.com/thank-you.html"> -->
 
           <div class="form-grid">
             <div class="field">
-              <input class="input" type="text" name="name" id="name" placeholder=" " required/>
-              <label class="label" for="name">Your name</label>
+              <input class="input" type="text" name="name" id="name" placeholder=" " required minlength="2" />
+              <label class="floater" for="name">Full name</label>
+              <div class="error" id="err-name">Please enter your name (min 2 characters).</div>
             </div>
             <div class="field">
-              <input class="input" type="email" name="email" id="email" placeholder=" " required/>
-              <label class="label" for="email">Your email</label>
+              <input class="input" type="email" name="email" id="email" placeholder=" " required />
+              <label class="floater" for="email">Email address</label>
+              <div class="error" id="err-email">Please enter a valid email address.</div>
+            </div>
+            <div class="field">
+              <input class="input" type="text" name="mobile" id="mobile" placeholder=" " required pattern="^[0-9+\-\s]{10,15}$" />
+              <label class="floater" for="mobile">Mobile number</label>
+              <div class="error" id="err-mobile">Enter 10–15 digits (you may include +, - or spaces).</div>
+            </div>
+            <div class="field">
+              <input class="input" type="text" name="organization" id="organization" placeholder=" " required />
+              <label class="floater" for="organization">Organization / Company</label>
+              <div class="error" id="err-organization">Please enter your organization / company.</div>
             </div>
           </div>
 
-          <div class="field">
-            <textarea class="input textarea" name="message" id="message" placeholder=" " required></textarea>
-            <label class="label" for="message">Your message</label>
+          <div style="margin-top:12px">
+            <div class="field">
+              <textarea class="input textarea" name="message" id="message" placeholder=" " required minlength="5"></textarea>
+              <label class="floater" for="message">Message</label>
+              <div class="error" id="err-message">Please enter a short message.</div>
+            </div>
           </div>
 
-          <div class="footer">
-            <button class="btn" type="submit">Send Message</button>
-            <span class="small">You’ll get an email, and I’ll receive your details.</span>
+          <div class="submit-row">
+            <button class="btn-lg" type="submit">Send Message</button>
+            <div class="hint">No sign-in required. You'll also get an auto-reply.</div>
           </div>
         </form>
-      </div>
-    </section>
+      </section>
 
-    <footer class="small" style="margin-top:28px; opacity:.8">
-      © <span id="year"></span> Akella Sri Satya Vijay. All rights reserved.
-    </footer>
+      <footer>
+        © <span id="year"></span> Akella Sri Satya Vijay — Built with intent • Resume & projects above.
+      </footer>
+    </main>
   </div>
 
   <script>
-    // ====== Config ======
+    // ===== Config =====
     const RESUME_URL = "https://drive.usercontent.google.com/download?id=1N9SC-cyHicZQe-9xohpLRCT6hL4XK2W1&export=download&authuser=1&confirm=t&uuid=e6be391f-8133-43f9-b505-dabab6d90fba&at=ALWLOp7dJfa61KFhaIn_nAfF2ZK7:1762661039899";
 
-    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('downloadBtn').addEventListener('click', triggerDownload);
 
-    // Resume button (manual)
-    document.getElementById('resumeBtn').addEventListener('click', () => triggerDownload());
-
-    // Auto-download on first visit
+    // Auto-download once per session
     window.addEventListener('load', () => {
-      // avoid multiple downloads when navigating via anchors
-      if (!sessionStorage.getItem('resumeDownloaded')) {
-        setTimeout(triggerDownload, 600);
-        sessionStorage.setItem('resumeDownloaded', '1');
+      if(!sessionStorage.getItem('resumeDownloaded')){
+        setTimeout(triggerDownload, 700);
+        sessionStorage.setItem('resumeDownloaded','1');
       }
     });
 
@@ -227,87 +324,92 @@
       a.remove();
     }
 
-    // ====== Minimal Particles Background (no dependencies) ======
+    // ===== Particles background (optimized) =====
     (function(){
       const canvas = document.getElementById('bg-canvas');
       const ctx = canvas.getContext('2d');
-      let w, h, dpi = window.devicePixelRatio || 1;
-
-      const PARTICLES = 80;
-      const SPEED = 0.25;
-      const LINK_DIST = 140;
+      let w = innerWidth, h = innerHeight, dpi = devicePixelRatio || 1;
+      const N = 120; // more particles for bigger effect
       const nodes = [];
 
-      function resize(){
-        w = canvas.clientWidth = window.innerWidth;
-        h = canvas.clientHeight = window.innerHeight;
-        canvas.width = Math.floor(w * dpi);
-        canvas.height = Math.floor(h * dpi);
-        ctx.scale(dpi, dpi);
-      }
-      window.addEventListener('resize', resize);
-      resize();
+      function resize(){ w = canvas.width = Math.floor(innerWidth * dpi); h = canvas.height = Math.floor(innerHeight * dpi); canvas.style.width = innerWidth + 'px'; canvas.style.height = innerHeight + 'px'; ctx.setTransform(dpi,0,0,dpi,0,0); }
+      addEventListener('resize', resize); resize();
 
-      function rand(min, max){return Math.random()*(max-min)+min}
+      function rand(a,b){ return Math.random()*(b-a)+a; }
+      for(let i=0;i<N;i++) nodes.push({x:rand(0,innerWidth), y:rand(0,innerHeight), vx:rand(-0.4,0.4), vy:rand(-0.4,0.4), r:rand(0.9,2.4)});
 
-      for(let i=0;i<PARTICLES;i++){
-        nodes.push({
-          x: rand(0, w), y: rand(0, h),
-          vx: rand(-SPEED, SPEED), vy: rand(-SPEED, SPEED),
-          r: rand(1.2, 2.2)
-        });
-      }
+      let mx=-9999,my=-9999; addEventListener('mousemove', e=>{mx=e.clientX; my=e.clientY}); addEventListener('mouseleave', ()=>{mx=-9999; my=-9999});
 
-      let mx = -9999, my = -9999; // mouse
-      window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-      window.addEventListener('mouseleave', () => { mx = -9999; my = -9999; });
-
-      function step(){
-        ctx.clearRect(0, 0, w, h);
-
-        // update + draw points
-        ctx.globalAlpha = 0.9;
-        for(const n of nodes){
+      function frame(){
+        ctx.clearRect(0,0,innerWidth,innerHeight);
+        for(let n of nodes){
           n.x += n.vx; n.y += n.vy;
-          if(n.x<0||n.x>w) n.vx*=-1;
-          if(n.y<0||n.y>h) n.vy*=-1;
-
-          // gentle mouse attraction
-          const dx = mx - n.x, dy = my - n.y;
-          const d2 = dx*dx + dy*dy;
-          if(d2 < 120*120){
-            n.vx += dx * 0.00002;
-            n.vy += dy * 0.00002;
-          }
-
+          if(n.x<0||n.x>innerWidth) n.vx *= -1;
+          if(n.y<0||n.y>innerHeight) n.vy *= -1;
+          const dx = mx - n.x, dy = my - n.y, d2 = dx*dx + dy*dy;
+          if(d2 < 150*150){ n.vx += dx*0.0002; n.vy += dy*0.0002; }
           ctx.beginPath();
-          ctx.fillStyle = "rgba(173,216,230,.8)";
+          ctx.fillStyle = 'rgba(125,211,252,0.85)';
           ctx.arc(n.x, n.y, n.r, 0, Math.PI*2);
           ctx.fill();
         }
-
-        // draw links
-        ctx.lineWidth = 1;
         for(let i=0;i<nodes.length;i++){
           for(let j=i+1;j<nodes.length;j++){
-            const a = nodes[i], b = nodes[j];
-            const dx = a.x-b.x, dy = a.y-b.y;
-            const dist = Math.hypot(dx, dy);
-            if(dist < LINK_DIST){
-              const alpha = 1 - (dist / LINK_DIST);
-              ctx.strokeStyle = `rgba(125, 211, 252, ${alpha * 0.45})`;
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.stroke();
+            const a=nodes[i], b=nodes[j];
+            const dx=a.x-b.x, dy=a.y-b.y, dist=Math.hypot(dx,dy);
+            if(dist < 160){
+              const alpha = 0.45 * (1 - dist/160);
+              ctx.strokeStyle = 'rgba(167,139,250,'+alpha+')';
+              ctx.lineWidth = 1;
+              ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
             }
           }
         }
-
-        requestAnimationFrame(step);
+        requestAnimationFrame(frame);
       }
-      step();
+      frame();
     })();
+
+    // ===== Client-side form validation with helpful messages =====
+    const form = document.getElementById('contactForm');
+    const fields = {
+      name: document.getElementById('name'),
+      email: document.getElementById('email'),
+      mobile: document.getElementById('mobile'),
+      organization: document.getElementById('organization'),
+      message: document.getElementById('message')
+    };
+    const errors = {
+      name: document.getElementById('err-name'),
+      email: document.getElementById('err-email'),
+      mobile: document.getElementById('err-mobile'),
+      organization: document.getElementById('err-organization'),
+      message: document.getElementById('err-message')
+    };
+
+    function showError(key, show){
+      errors[key].style.display = show ? 'block' : 'none';
+    }
+
+    function validateField(key){
+      const el = fields[key];
+      let valid = el.checkValidity();
+      showError(key, !valid);
+      return valid;
+    }
+
+    Object.keys(fields).forEach(k => {
+      fields[k].addEventListener('input', () => validateField(k));
+      fields[k].addEventListener('blur', () => validateField(k));
+    });
+
+    form.addEventListener('submit', (e) => {
+      let ok = true;
+      Object.keys(fields).forEach(k => { if(!validateField(k)) ok = false; });
+      if(!ok){
+        e.preventDefault();
+      }
+    });
   </script>
 </body>
 </html>
