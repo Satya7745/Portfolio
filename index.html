@@ -122,29 +122,267 @@ footer{margin-top:36px;color:var(--muted);font-size:13px;padding-bottom:40px}
 .tilt.hovered::after{opacity:1}
 
 /* AI Widget */
-.ai-fab{
-position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:50%;
-background:linear-gradient(135deg,var(--accent1),var(--accent2));border:none;color:#021;font-weight:900;
-display:grid;place-items:center;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.5);z-index:9999;
-}
-.ai-panel{
-position:fixed;right:18px;bottom:86px;width:480px;max-height:85vh;border-radius:16px;
-background:rgba(10,12,18,.96);backdrop-filter:blur(8px);
-border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.6);
-display:none;flex-direction:column;overflow:hidden;z-index:9999;
-}
-.ai-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)}
-.ai-title{font-weight:800;font-size:14px}
-.ai-close{background:transparent;border:none;color:var(--muted);cursor:pointer}
-.ai-body{padding:12px;overflow:auto;display:flex;flex-direction:column;gap:10px}
-.ai-msg{padding:10px 12px;border-radius:12px;max-width:85%;line-height:1.35;box-shadow:0 6px 20px rgba(0,0,0,.3)}
-.ai-user{align-self:flex-end;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#031018}
-.ai-bot{align-self:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
-.ai-input{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.25)}
-.ai-input input{flex:1;padding:12px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text);outline:none}
-.ai-input button{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#031018;font-weight:800;cursor:pointer}
-.ai-tip{font-size:12px;color:var(--muted);padding:0 12px 10px}
-@media (max-width:480px){ .ai-panel{right:10px;left:10px;width:auto} }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Assistant | Satya</title>
+  <style>
+    :root {
+      --accent1: #00c6ff;
+      --accent2: #0072ff;
+      --text: #fff;
+      --muted: #aaa;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+      font-family: "Poppins", sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      margin: 0;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    /* ✨ AI Widget – Sleeping + Wake-up Animation Edition */
+    .ai-fab {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      border: none;
+      color: #021;
+      font-weight: 900;
+      font-size: 20px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+      z-index: 9999;
+      transition: all 0.3s ease;
+      animation: sleepGlow 4s ease-in-out infinite;
+    }
+
+    /* Sleeping breathing effect */
+    @keyframes sleepGlow {
+      0%, 100% {
+        box-shadow: 0 0 10px rgba(0,255,255,0.25), 0 0 25px rgba(0,255,255,0.15);
+        transform: scale(1);
+        filter: brightness(0.9);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(0,255,255,0.4), 0 0 35px rgba(0,255,255,0.25);
+        transform: scale(1.05);
+        filter: brightness(1.1);
+      }
+    }
+
+    /* Wake-up state */
+    .ai-fab.active {
+      animation: wakeUp 0.6s ease forwards;
+      box-shadow: 0 0 30px var(--accent1), 0 0 60px var(--accent2);
+      filter: brightness(1.4);
+    }
+
+    @keyframes wakeUp {
+      0% { transform: scale(1); filter: brightness(1); }
+      25% { transform: scale(1.25) rotate(3deg); filter: brightness(1.3); }
+      50% { transform: scale(1.1) rotate(-3deg); filter: brightness(1.4); }
+      75% { transform: scale(1.15) rotate(1deg); filter: brightness(1.2); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+
+    .ai-fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px var(--accent1), 0 0 60px var(--accent2);
+    }
+
+    /* AI Panel */
+    .ai-panel {
+      position: fixed;
+      right: 18px;
+      bottom: 86px;
+      width: 420px;
+      max-height: 80vh;
+      border-radius: 16px;
+      background: rgba(10, 12, 18, 0.96);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+    }
+
+    .ai-panel.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ai-header {
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #021;
+    }
+
+    .ai-title {
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+
+    .ai-close {
+      background: transparent;
+      border: none;
+      color: #031018;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+    }
+
+    .ai-close:hover {
+      transform: rotate(90deg);
+    }
+
+    .ai-body {
+      padding: 12px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ai-msg {
+      padding: 10px 12px;
+      border-radius: 12px;
+      max-width: 85%;
+      line-height: 1.35;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .ai-user {
+      align-self: flex-end;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #031018;
+    }
+
+    .ai-bot {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .ai-input {
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .ai-input input {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      color: var(--text);
+      outline: none;
+    }
+
+    .ai-input button {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: linear-gradient(90deg, var(--accent1), var(--accent2));
+      color: #031018;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .ai-tip {
+      font-size: 14px;
+      color: var(--muted);
+      padding: 0 12px 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .ai-panel {
+        right: 10px;
+        left: 10px;
+        width: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Hi, I’m Satya Vijay 👋<br>Your AI Assistant is sleeping... 😴</h2>
+
+  <!-- AI Floating Button -->
+  <button class="ai-fab" id="aiFab">🤖</button>
+
+  <!-- Chat Panel -->
+  <div class="ai-panel" id="aiPanel">
+    <div class="ai-header">
+      <div class="ai-title">AI Assistant</div>
+      <button class="ai-close" id="aiClose">✕</button>
+    </div>
+    <div class="ai-body">
+      <div class="ai-msg ai-bot">💤 Hello... I just woke up! How can I help you?</div>
+    </div>
+    <div class="ai-input">
+      <input type="text" placeholder="Type something..." />
+      <button>Send</button>
+    </div>
+    <div class="ai-tip">AI is listening 👂</div>
+  </div>
+
+  <script>
+    // Toggle AI button + panel
+    const aiFab = document.querySelector(".ai-fab");
+    const aiPanel = document.querySelector(".ai-panel");
+    const aiClose = document.querySelector(".ai-close");
+
+    aiFab.addEventListener("click", () => {
+      aiFab.classList.add("active");
+      aiPanel.classList.toggle("active");
+
+      // remove wake-up effect after animation completes
+      setTimeout(() => {
+        aiFab.classList.remove("active");
+      }, 800);
+    });
+
+    aiClose.addEventListener("click", () => {
+      aiPanel.classList.remove("active");
+    });
+  </script>
+
+</body>
+</html>
+
 </style>
 </head>
 <body>
