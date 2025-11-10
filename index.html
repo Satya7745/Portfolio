@@ -41,13 +41,153 @@ radial-gradient(600px 280px at 70% 0%, rgba(167,139,250,.24), transparent 65%);
 }
 
 /* Layout */
-.wrap{position:relative;z-index:1;max-width:1220px;margin:40px auto;padding:28px}
-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0}
-.brand{display:flex;gap:16px;align-items:center}
-.logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:grid;place-items:center;font-weight:800;color:#021;font-size:20px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
-h1{margin:0;font-size:22px;letter-spacing:.3px}
-.contact-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.chip{background:var(--glass);padding:8px 12px;border-radius:999px;font-size:13px;color:var(--muted);border:1px solid rgba(255,255,255,.06)}
+/* Layout – Responsive Enhanced Edition */
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 100%;
+  margin: 40px auto;
+  padding: 28px;
+  box-sizing: border-box;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 12px 0;
+  flex-wrap: wrap; /* ✅ allows items to stack on smaller screens */
+}
+
+.brand {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  min-width: 50px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #021;
+  font-size: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover glow for desktop */
+.logo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--accent1), 0 0 40px var(--accent2);
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 0.3px;
+  color: var(--text);
+  transition: font-size 0.3s ease;
+}
+
+.contact-links {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.chip {
+  background: var(--glass);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+/* Hover glow for interactivity */
+.chip:hover {
+  color: var(--accent1);
+  border-color: var(--accent1);
+  box-shadow: 0 0 10px var(--accent1);
+}
+
+/* ---------- Responsive Section ---------- */
+@media (max-width: 768px) {
+  .wrap {
+    padding: 20px;
+    margin: 20px auto;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .brand {
+    justify-content: center;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .contact-links {
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .chip {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+
+  .logo {
+    width: 56px;
+    height: 56px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    gap: 10px;
+  }
+
+  .wrap {
+    padding: 16px;
+  }
+
+  h1 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .chip {
+    font-size: 11.5px;
+    padding: 6px 9px;
+  }
+
+  .logo {
+    width: 52px;
+    height: 52px;
+    font-size: 17px;
+  }
+}
 
 /* Cards / Hero */
 .hero{position:relative;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:18px}
