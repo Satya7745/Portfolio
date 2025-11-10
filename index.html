@@ -122,11 +122,6 @@ footer{margin-top:36px;color:var(--muted);font-size:13px;padding-bottom:40px}
 .tilt.hovered::after{opacity:1}
 
 /* AI Widget */
-  
-/* AI Widget – Modern Neon Glow Edition */
-/* AI Widget – Compact Neon Edition */
-
-/* AI Widget */
 .ai-fab{
 position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:50%;
 background:linear-gradient(135deg,var(--accent1),var(--accent2));border:none;color:#021;font-weight:900;
@@ -150,6 +145,7 @@ display:none;flex-direction:column;overflow:hidden;z-index:9999;
 .ai-input button{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#031018;font-weight:800;cursor:pointer}
 .ai-tip{font-size:12px;color:var(--muted);padding:0 12px 10px}
 @media (max-width:480px){ .ai-panel{right:10px;left:10px;width:auto} }
+</style>
 </head>
 <body>
 <!-- Background -->
@@ -169,13 +165,20 @@ display:none;flex-direction:column;overflow:hidden;z-index:9999;
 </div>
 
 <div class="contact-links">
+<div class="chip">+91 9391520600</div>
+<a class="chip" href="mailto:akellasrisatyavijay2@gmail.com">akellasrisatyavijay2@gmail.com</a>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<a class="chip" href="https://www.linkedin.com/in/satyavijay/" target="_blank">LinkedIn</a>
+<a class="chip" href="https://github.com/Satya7745/" target="_blank">GitHub</a>
+<a class="chip" href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank">LeetCode</a>
+</div>
   <div class="chip">+91 9391520600</div>
   <a class="chip" href="mailto:akellasrisatyavijay2@gmail.com">akellasrisatyavijay2@gmail.com</a>
 
   <div style="display:flex;gap:10px;flex-wrap:wrap">
-  <a class="chip linkedin" href="https://www.linkedin.com/in/satyavijay/" target="_blank">LinkedIn</a>
-  <a class="chip github" href="https://github.com/Satya7745/" target="_blank">GitHub</a>
-  <a class="chip leetcode" href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank">LeetCode</a>
+    <a class="chip linkedin" href="https://www.linkedin.com/in/satyavijay/" target="_blank">LinkedIn</a>
+    <a class="chip github" href="https://github.com/Satya7745/" target="_blank">GitHub</a>
+    <a class="chip leetcode" href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank">LeetCode</a>
   </div>
 </div>
 
@@ -590,23 +593,23 @@ Summary:
 
 Experience:
 - AI/ML Engineer — LTIMindtree (Sep 2023 – Present, Hyderabad)
- • Built multi-agent Response AI: reduced query resolution time ~95%, user satisfaction +92%.
- • Designed RAG ingestion & retrieval: ~90% faster retrieval, accuracy ~85%.
- • Observability dashboards & cost optimization: failures -91%, token cost/query -90%, infra cost -83%.
- • Tech: Python, LangChain, Azure AI Foundry, FAISS/Qdrant, FastAPI/Flask, Docker, GitHub Actions, KQL.
+• Built multi-agent Response AI: reduced query resolution time ~95%, user satisfaction +92%.
+• Designed RAG ingestion & retrieval: ~90% faster retrieval, accuracy ~85%.
+• Observability dashboards & cost optimization: failures -91%, token cost/query -90%, infra cost -83%.
+• Tech: Python, LangChain, Azure AI Foundry, FAISS/Qdrant, FastAPI/Flask, Docker, GitHub Actions, KQL.
 
 Selected Projects:
 - Response AI — Agentic Escalation Analysis
- • Automates entity extraction, KQL generation, log analysis, and context-aware responses.
- • Stack: Python, LangChain, Azure AI Foundry, RAG, Docker, CI/CD.
+• Automates entity extraction, KQL generation, log analysis, and context-aware responses.
+• Stack: Python, LangChain, Azure AI Foundry, RAG, Docker, CI/CD.
 - KQL Auto-Query Agent
- • Natural language → executable KQL queries, safe execution with guardrails.
- • Stack: LangChain, KQL, Vector DBs, Flask.
+• Natural language → executable KQL queries, safe execution with guardrails.
+• Stack: LangChain, KQL, Vector DBs, Flask.
 - Low-Latency RAG @ Scale
- • 1000 QPS design with vector cache, ANN, chunking strategy, query planner, speculative fetch.
- • Stack: FAISS/Qdrant, FastAPI, Redis.
+• 1000 QPS design with vector cache, ANN, chunking strategy, query planner, speculative fetch.
+• Stack: FAISS/Qdrant, FastAPI, Redis.
 - Agentic Learning Assistant (POC)
- • Planner–Critic–Tooling loop for interactive learning and quizzes.
+• Planner–Critic–Tooling loop for interactive learning and quizzes.
 
 Skills:
 - LLMs, Prompting, RAG, Agentic orchestration, Observability, CI/CD.
@@ -792,7 +795,7 @@ ${RESUME_CONTEXT}
 User question: ${userText}
 
 You MUST answer only using the resume context above.
-       `
+      `
 }
 ]
 
