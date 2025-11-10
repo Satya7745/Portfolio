@@ -165,14 +165,71 @@ display:none;flex-direction:column;overflow:hidden;z-index:9999;
 </div>
 
 <div class="contact-links">
-<div class="chip">+91 9391520600</div>
-<a class="chip" href="mailto:akellasrisatyavijay2@gmail.com">akellasrisatyavijay2@gmail.com</a>
-<div style="display:flex;gap:10px;flex-wrap:wrap">
-<a class="chip" href="https://www.linkedin.com/in/satyavijay/" target="_blank">LinkedIn</a>
-<a class="chip" href="https://github.com/Satya7745/" target="_blank">GitHub</a>
-<a class="chip" href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank">LeetCode</a>
+  <div class="chip">+91 9391520600</div>
+  <a class="chip" href="mailto:akellasrisatyavijay2@gmail.com">akellasrisatyavijay2@gmail.com</a>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <a class="chip linkedin" href="https://www.linkedin.com/in/satyavijay/" target="_blank">LinkedIn</a>
+    <a class="chip github" href="https://github.com/Satya7745/" target="_blank">GitHub</a>
+    <a class="chip leetcode" href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank">LeetCode</a>
+  </div>
 </div>
-</div>
+
+<style>
+  .chip {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .linkedin {
+    background: linear-gradient(90deg, #0077b5, #00a0dc);
+  }
+
+  .github {
+    background: linear-gradient(90deg, #24292e, #3d3d3d);
+  }
+
+  .leetcode {
+    background: linear-gradient(90deg, #f89f1b, #f7b733);
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  .chip:hover {
+    transform: translateY(-4px);
+  }
+
+  .linkedin:hover {
+    box-shadow: 0 0 20px rgba(0,119,181,0.8);
+  }
+
+  .github:hover {
+    box-shadow: 0 0 20px rgba(255,255,255,0.4);
+  }
+
+  .leetcode:hover {
+    box-shadow: 0 0 20px rgba(248,159,27,0.8);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .linkedin { animation-delay: 0s; }
+  .github { animation-delay: 1s; }
+  .leetcode { animation-delay: 2s; }
+</style>
+
 </header>
 
 <main>
