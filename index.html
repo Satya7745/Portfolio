@@ -122,326 +122,213 @@ footer{margin-top:36px;color:var(--muted);font-size:13px;padding-bottom:40px}
 .tilt.hovered::after{opacity:1}
 
 /* AI Widget */
-<!-- Paste this entire file (or the contents) into your index.html replacing the old AI widget block.
-     It's self-contained: CSS + HTML + JS. Works on GitHub Pages. -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>AI Widget — Compact, Sleeping/Wake Animations</title>
+/* AI Widget – Enhanced Neon Animated Edition */
+.ai-fab{
+position:fixed;
+right:18px;
+bottom:18px;
+width:58px;
+height:58px;
+border-radius:50%;
+background:linear-gradient(135deg,var(--accent1),var(--accent2));
+border:none;
+color:#021;
+font-weight:900;
+display:grid;
+place-items:center;
+cursor:pointer;
+box-shadow:0 0 15px var(--accent1),0 0 30px var(--accent2);
+z-index:9999;
+animation:aiSleep 4s ease-in-out infinite;
+transition:all .35s ease;
+}
 
-  <style>
-    :root{
-      --accent1:#00c6ff;
-      --accent2:#0072ff;
-      --text:#eaf6ff;
-      --muted:#9aa8b3;
-    }
+/* breathing / glowing while idle */
+@keyframes aiSleep{
+0%,100%{
+transform:scale(1);
+box-shadow:0 0 10px rgba(0,255,255,0.3),0 0 20px rgba(0,255,255,0.1);
+filter:brightness(0.9);
+}
+50%{
+transform:scale(1.05);
+box-shadow:0 0 20px rgba(0,255,255,0.5),0 0 35px rgba(0,255,255,0.25);
+filter:brightness(1.1);
+}
+}
 
-    /* ---------- Compact AI Widget (replace your old CSS with this) ---------- */
+.ai-fab:hover{
+transform:scale(1.12) rotate(3deg);
+box-shadow:0 0 25px var(--accent1),0 0 50px var(--accent2);
+filter:brightness(1.2);
+}
 
-    /* Floating button (sleeping by default) */
-    .ai-fab{
-      position:fixed;
-      right:18px;
-      bottom:18px;
-      width:54px;
-      height:54px;
-      border-radius:50%;
-      background:linear-gradient(135deg,var(--accent1),var(--accent2));
-      border:none;
-      color:#021;
-      font-weight:900;
-      font-size:20px;
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-      box-shadow:0 8px 22px rgba(0,0,0,.45);
-      z-index:9999;
-      transition:transform .26s ease, box-shadow .26s ease, filter .26s ease;
-      /* sleeping breathing effect */
-      animation:sleepGlow 4s ease-in-out infinite;
-      -webkit-tap-highlight-color: transparent;
-    }
+/* when AI wakes (trigger via .active in JS if you want) */
+.ai-fab.active{
+animation:aiWake .6s ease forwards;
+box-shadow:0 0 35px var(--accent1),0 0 60px var(--accent2);
+filter:brightness(1.3);
+}
 
-    /* subtle breathing while idle */
-    @keyframes sleepGlow{
-      0%,100%{
-        box-shadow:0 4px 10px rgba(0,198,255,0.12), 0 10px 20px rgba(0,114,255,0.06);
-        transform:scale(1);
-        filter:brightness(.95);
-      }
-      50%{
-        box-shadow:0 8px 20px rgba(0,198,255,0.22), 0 18px 36px rgba(0,114,255,0.12);
-        transform:scale(1.04);
-        filter:brightness(1.05);
-      }
-    }
+@keyframes aiWake{
+0%{transform:scale(1);filter:brightness(1);}
+25%{transform:scale(1.2) rotate(3deg);filter:brightness(1.2);}
+50%{transform:scale(1.05) rotate(-2deg);filter:brightness(1.3);}
+75%{transform:scale(1.1);filter:brightness(1.1);}
+100%{transform:scale(1);filter:brightness(1);}
+}
 
-    /* when user hovers */
-    .ai-fab:hover{ transform:scale(1.08); box-shadow:0 10px 28px rgba(0,198,255,0.28); }
+.ai-panel{
+position:fixed;
+right:18px;
+bottom:86px;
+width:460px;
+max-height:82vh;
+border-radius:18px;
+background:rgba(12,14,20,0.96);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,.1);
+box-shadow:0 20px 60px rgba(0,255,255,0.15);
+display:none;
+flex-direction:column;
+overflow:hidden;
+z-index:9999;
+opacity:0;
+transform:translateY(10px) scale(0.98);
+transition:all .4s ease;
+}
 
-    /* active (wake-up) animation */
-    .ai-fab.wake{
-      animation:none;
-      transform:scale(1.18) rotate(2deg);
-      box-shadow:0 16px 60px rgba(0,198,255,0.34), 0 24px 90px rgba(0,114,255,0.18);
-      filter:brightness(1.25);
-      transition:transform .18s ease, box-shadow .18s ease;
-    }
-    /* quick vibration pulse to make it feel alive */
-    @keyframes wakePulse{
-      0%{ transform:scale(1.18) rotate(2deg); }
-      30%{ transform:scale(1.05) rotate(-3deg); }
-      60%{ transform:scale(1.12) rotate(1deg); }
-      100%{ transform:scale(1.0) rotate(0deg); }
-    }
-    .ai-fab.wake.pulse{ animation:wakePulse .6s ease; }
+.ai-panel.active{
+display:flex;
+opacity:1;
+transform:translateY(0) scale(1);
+}
 
-    /* panel (hidden by default) */
-    .ai-panel{
-      position:fixed;
-      right:18px;
-      bottom:86px;
-      width:380px;
-      max-height:78vh;
-      border-radius:14px;
-      background:rgba(10,12,18,.96);
-      backdrop-filter:blur(8px);
-      border:1px solid rgba(255,255,255,.06);
-      box-shadow:0 22px 48px rgba(0,0,0,.6);
-      display:none;
-      flex-direction:column;
-      overflow:hidden;
-      z-index:9999;
-      opacity:0;
-      transform:translateY(12px) scale(.995);
-      transition:opacity .32s ease, transform .32s cubic-bezier(.2,.9,.2,1);
-      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
+.ai-header{
+padding:12px 14px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid rgba(255,255,255,.06);
+background:linear-gradient(90deg,var(--accent1),var(--accent2));
+color:#021;
+box-shadow:0 2px 10px rgba(0,255,255,0.2);
+}
 
-    .ai-panel.active{ display:flex; opacity:1; transform:translateY(0) scale(1); }
+.ai-title{
+font-weight:800;
+font-size:14px;
+letter-spacing:.5px;
+text-transform:uppercase;
+}
 
-    .ai-header{
-      padding:10px 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      color:#021;
-      border-bottom:1px solid rgba(255,255,255,.04);
-    }
-    .ai-title{ font-weight:800; font-size:13px; letter-spacing:.4px; }
-    .ai-close{
-      background:transparent; border:none; color:#031018; cursor:pointer;
-      font-size:16px; padding:6px; border-radius:6px;
-      transition:transform .18s ease, background .15s ease;
-    }
-    .ai-close:hover{ transform:rotate(90deg); background:rgba(255,255,255,0.02); }
+.ai-close{
+background:transparent;
+border:none;
+color:var(--muted);
+cursor:pointer;
+font-size:18px;
+transition:transform .25s ease,color .2s ease;
+}
 
-    .ai-body{
-      padding:10px;
-      overflow:auto;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-    }
+.ai-close:hover{
+transform:rotate(90deg);
+color:var(--accent1);
+}
 
-    .ai-msg{
-      padding:9px 11px;
-      border-radius:10px;
-      max-width:80%;
-      line-height:1.35;
-      box-shadow:0 6px 14px rgba(0,0,0,.35);
-      font-size:13px;
-      color:var(--text);
-      background:rgba(255,255,255,0.03);
-    }
-    .ai-user{ align-self:flex-end; background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:#031018; font-weight:600; }
-    .ai-bot{ align-self:flex-start; background:rgba(255,255,255,0.03); color:var(--text); }
+.ai-body{
+padding:14px;
+overflow:auto;
+display:flex;
+flex-direction:column;
+gap:10px;
+scroll-behavior:smooth;
+background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(0,0,0,0.25));
+}
 
-    .ai-input{
-      display:flex;
-      gap:8px;
-      padding:10px;
-      border-top:1px solid rgba(255,255,255,0.04);
-      background:rgba(0,0,0,0.22);
-    }
-    .ai-input input{
-      flex:1;
-      padding:10px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:transparent;
-      color:var(--text);
-      outline:none;
-      font-size:13px;
-    }
-    .ai-input button{
-      padding:9px 12px;
-      border-radius:8px;
-      border:none;
-      background:linear-gradient(90deg,var(--accent1),var(--accent2));
-      color:#031018;
-      font-weight:700;
-      cursor:pointer;
-      font-size:13px;
-    }
+.ai-msg{
+padding:10px 12px;
+border-radius:12px;
+max-width:85%;
+line-height:1.35;
+box-shadow:0 6px 18px rgba(0,0,0,.35);
+font-size:14px;
+animation:fadeIn .4s ease;
+}
 
-    .ai-tip{ font-size:12px; color:var(--muted); padding:8px 10px 12px; text-align:center; }
+.ai-user{
+align-self:flex-end;
+background:linear-gradient(90deg,var(--accent1),var(--accent2));
+color:#031018;
+font-weight:700;
+}
 
-    /* small screens */
-    @media (max-width:480px){
-      .ai-panel{ right:10px; left:10px; width:auto; bottom:74px; max-height:68vh; }
-      .ai-fab{ right:12px; bottom:12px; width:48px; height:48px; font-size:18px; }
-    }
-  </style>
-</head>
-<body>
+.ai-bot{
+align-self:flex-start;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.06);
+color:var(--text);
+}
 
-  <!-- Your page content (keeps existing content intact) -->
-  <div style="padding:24px;color:#dfeeff;font-family:Inter,Arial,Helvetica;">
-    <!-- Demo header — remove or keep -->
-    <h2 style="margin:0 0 18px 0">Hi — your portfolio</h2>
-    <p style="margin:0 0 6px 0; color:var(--muted)">Widget included at bottom-right.</p>
-  </div>
+.ai-input{
+display:flex;
+gap:8px;
+padding:10px;
+border-top:1px solid rgba(255,255,255,.06);
+background:rgba(0,0,0,.3);
+backdrop-filter:blur(6px);
+}
 
-  <!-- ---------- AI widget HTML (paste this into your site where indicated) ---------- -->
-  <button class="ai-fab" aria-label="Open AI assistant" id="aiFab">🤖</button>
+.ai-input input{
+flex:1;
+padding:12px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,.1);
+background:transparent;
+color:var(--text);
+outline:none;
+font-size:13.5px;
+transition:all .3s ease;
+}
 
-  <aside class="ai-panel" role="dialog" aria-hidden="true" aria-labelledby="aiTitle" id="aiPanel">
-    <div class="ai-header">
-      <div class="ai-title" id="aiTitle">AI Assistant</div>
-      <button class="ai-close" aria-label="Close assistant" id="aiClose">✕</button>
-    </div>
+.ai-input input:focus{
+border-color:var(--accent1);
+box-shadow:0 0 10px var(--accent1);
+}
 
-    <div class="ai-body" id="aiBody">
-      <div class="ai-msg ai-bot">💤 I was sleeping — hello! Click send to test.</div>
-    </div>
+.ai-input button{
+padding:10px 12px;
+border-radius:10px;
+border:none;
+background:linear-gradient(90deg,var(--accent1),var(--accent2));
+color:#031018;
+font-weight:800;
+cursor:pointer;
+transition:all .3s ease;
+}
 
-    <div class="ai-input">
-      <input id="aiInput" type="text" placeholder="Ask something (try: hello)" aria-label="Ask AI" />
-      <button id="sendBtn" type="button">Send</button>
-    </div>
+.ai-input button:hover{
+transform:translateY(-2px);
+box-shadow:0 0 18px var(--accent1);
+filter:brightness(1.1);
+}
 
-    <div class="ai-tip" id="aiTip">Tip: press Esc to close.</div>
-  </aside>
+.ai-tip{
+font-size:12px;
+color:var(--muted);
+padding:0 12px 10px;
+text-align:center;
+letter-spacing:.3px;
+}
 
-  <script>
-    // Self-contained, robust widget logic.
-    (function(){
-      const aiFab = document.getElementById('aiFab');
-      const aiPanel = document.getElementById('aiPanel');
-      const aiClose = document.getElementById('aiClose');
-      const aiInput = document.getElementById('aiInput');
-      const aiBody = document.getElementById('aiBody');
-      const sendBtn = document.getElementById('sendBtn');
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(5px);}
+to{opacity:1;transform:translateY(0);}
+}
 
-      // Ensure DOM elements exist before hooking
-      if(!aiFab || !aiPanel) return;
-
-      // helper: append message
-      function appendMessage(text, cls){
-        const div = document.createElement('div');
-        div.className = 'ai-msg ' + cls;
-        div.textContent = text;
-        aiBody.appendChild(div);
-        // keep scroll to bottom
-        requestAnimationFrame(()=> aiBody.scrollTop = aiBody.scrollHeight);
-      }
-
-      // open/close panel with wake animation
-      function openPanel(){
-        aiPanel.classList.add('active');
-        aiPanel.setAttribute('aria-hidden','false');
-        // wake the button (short animation)
-        aiFab.classList.add('wake','pulse');
-        // after pulse remove the pulse class (keep wake removed after a short delay)
-        setTimeout(()=> aiFab.classList.remove('pulse'), 650);
-        // remove wake class later so it returns to sleeping animation
-        setTimeout(()=> aiFab.classList.remove('wake'), 900);
-        // focus input
-        setTimeout(()=> aiInput.focus(), 260);
-      }
-      function closePanel(){
-        aiPanel.classList.remove('active');
-        aiPanel.setAttribute('aria-hidden','true');
-        aiFab.focus();
-      }
-
-      // toggle when fab clicked
-      aiFab.addEventListener('click', (e)=>{
-        e.stopPropagation(); // avoid document click handler closing it immediately
-        if(aiPanel.classList.contains('active')){
-          closePanel();
-        } else {
-          openPanel();
-        }
-      });
-
-      // close button
-      aiClose.addEventListener('click', (e)=>{ e.stopPropagation(); closePanel(); });
-
-      // close on escape key
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape' && aiPanel.classList.contains('active')){
-          closePanel();
-        }
-      });
-
-      // clicking outside closes panel (but ignore clicks on fab/panel)
-      document.addEventListener('click', (e)=>{
-        const target = e.target;
-        if(!aiPanel.contains(target) && !aiFab.contains(target) && aiPanel.classList.contains('active')){
-          closePanel();
-        }
-      });
-
-      // minimal demo "AI" behavior: echo + simulated reply
-      function simulateReply(userText){
-        // bot typing placeholder
-        const typing = document.createElement('div');
-        typing.className = 'ai-msg ai-bot';
-        typing.textContent = '…'; // simple typing indicator
-        aiBody.appendChild(typing);
-        aiBody.scrollTop = aiBody.scrollHeight;
-        // simulate delay then replace
-        setTimeout(()=>{
-          typing.textContent = "I heard: " + (userText || 'nothing — try typing something!');
-          aiBody.scrollTop = aiBody.scrollHeight;
-        }, 700 + Math.min(2000, (userText||'').length * 40));
-      }
-
-      // send handler
-      function handleSend(){
-        const text = aiInput.value.trim();
-        if(!text) {
-          aiInput.focus();
-          return;
-        }
-        appendMessage(text, 'ai-user');
-        aiInput.value = '';
-        setTimeout(() => simulateReply(text), 120);
-      }
-
-      sendBtn.addEventListener('click', handleSend);
-
-      // allow Enter to send (Shift+Enter for newline)
-      aiInput.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter' && !e.shiftKey){
-          e.preventDefault();
-          handleSend();
-        }
-      });
-
-      // ensure widget works if script is loaded before DOM (defensive)
-      // focus trap not needed — simple UX
-    })();
-  </script>
-</body>
-</html>
+@media (max-width:480px){
+.ai-panel{right:10px;left:10px;width:auto;}
+}
 
 </style>
 </head>
