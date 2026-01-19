@@ -711,10 +711,10 @@ transform="rotate(-90 60 60)"></circle>
 import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai?client";
 
 /* ====== EDIT ONLY THIS LINE ====== */
-const GEMINI_API_KEY = "YOUR_API_KEY_HERE";
+const GEMINI_API_KEY = "AIzaSyDDuSipxv7uPhDoceYoZlaof4SIS28oaBs";
 /* ================================= */
 
-const GEMINI_MODEL = "gemini-2.5-flash";
+const GEMINI_MODEL = "gemini-3-flash-preview";
 
 // Minimal resume context for single-prompt answering
 const RESUME_CONTEXT = `
@@ -910,7 +910,7 @@ return null; // means truly empty
 }
 
 async function askGemini(userText){
-const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${"AIzaSyBckPuJalEtUI_dkHfN0DsJeKFaJsR0nAY"}`;
+const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${"AIzaSyDDuSipxv7uPhDoceYoZlaof4SIS28oaBs"}`;
 
 const payload = {
 contents: [
