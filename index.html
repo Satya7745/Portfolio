@@ -858,98 +858,133 @@ io.unobserve(el);
 kpis.forEach(k => io.observe(k));
 })();
 
-// ===== AI Widget =====
-const aiClient = new GoogleGenerativeAI(GEMINI_API_KEY);
-const aiModel = aiClient.getGenerativeModel({ model: GEMINI_MODEL });
+// ===== Configuration =====
+// Note: In a true production app, strictly avoid exposing API keys in client-side code.
+const GEMINI_API_KEY = "AIzaSyDDuSipxv7uPhDoceYoZlaof4SIS28oaBs";
+const GEMINI_MODEL = "gemini-1.5-flash"; 
 
-function addMsg(text, who='bot'){
-const div = document.createElement('div');
-div.className = 'ai-msg ' + (who === 'user' ? 'ai-user' : 'ai-bot');
-div.textContent = text;
-$body.appendChild(div);
-$body.scrollTop = $body.scrollHeight;
+// Ensure global context variables exist to prevent ReferenceErrors
+const SYS_PROMPT_SAFE = typeof SYSTEM_PROMPT !== 'undefined' ? SYSTEM_PROMPT : "You are a helpful assistant.";
+const RESUME_CTX_SAFE = typeof RESUME_CONTEXT !== 'undefined' ? RESUME_CONTEXT : "No resume context provided.";
+
+// ===== UI Logic =====
+
+function addMsg(text, who = 'bot') {
+    const div = document.createElement('div');
+    div.className = 'ai-msg ' + (who === 'user' ? 'ai-user' : 'ai-bot');
+    div.textContent = text;
+    // Check if $body exists before appending
+    if (typeof $body !== 'undefined' && $body) {
+        $body.appendChild(div);
+        $body.scrollTop = $body.scrollHeight;
+    } else {
+        console.error("DOM Error: $body element not found.");
+    }
 }
 
-$fab.addEventListener('click', () => { $panel.style.display = 'flex'; $input.focus(); });
-$close.addEventListener('click', () => { $panel.style.display = 'none'; });
-$send.addEventListener('click', onSend);
-$input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ onSend(); }});
+// Ensure DOM elements exist before attaching listeners
+if (typeof $fab !== 'undefined') $fab.addEventListener('click', () => { $panel.style.display = 'flex'; $input.focus(); });
+if (typeof $close !== 'undefined') $close.addEventListener('click', () => { $panel.style.display = 'none'; });
+if (typeof $send !== 'undefined') $send.addEventListener('click', onSend);
+if (typeof $input !== 'undefined') $input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { onSend(); } });
 
-async function onSend(){
-const q = ($input.value || '').trim();
-if(!q) return;
-addMsg(q, 'user');
-$input.value='';
-addMsg('Typing…', 'bot');
-try{
-const answer = await askGemini(q);
-const last = $body.querySelector('.ai-msg.ai-bot:last-child');
-if(last) last.textContent = answer || 'Sorry, I could not generate a response.';
-}catch(err){
-const last = $body.querySelector('.ai-msg.ai-bot:last-child');
-if(last) last.textContent = 'Error: ' + (err?.message || 'Something went wrong');
-}
-}
-function extractAnswer(data){
-// Standard response
-let direct = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-if (direct && direct.trim()) return direct.trim();
+async function onSend() {
+    // Validate Input
+    if (typeof $input === 'undefined') return;
+    const q = ($input.value || '').trim();
+    if (!q) return;
 
-// Some models return an array of parts
-let parts = data?.candidates?.[0]?.content?.parts;
-if (Array.isArray(parts)) {
-let joined = parts.map(p => p.text || "").join("").trim();
-if (joined) return joined;
+    addMsg(q, 'user');
+    $input.value = '';
+    addMsg('Typing…', 'bot');
+
+    try {
+        const answer = await askGemini(q);
+        const last = $body.querySelector('.ai-msg.ai-bot:last-child');
+        if (last) last.textContent = answer;
+    } catch (err) {
+        console.error(err);
+        const last = $body.querySelector('.ai-msg.ai-bot:last-child');
+        if (last) last.textContent = 'Error: ' + (err?.message || 'Something went wrong');
+    }
 }
 
-// Fallback: some responses use 'outputText' or 'output_text'
-let alt = data?.output_text || data?.outputText;
-if (alt && alt.trim()) return alt.trim();
+function extractAnswer(data) {
+    // 1. Check if the model blocked the response explicitly
+    if (data.promptFeedback?.blockReason) {
+        return `Response blocked. Reason: ${data.promptFeedback.blockReason}`;
+    }
 
-return null; // means truly empty
+    if (!data.candidates || data.candidates.length === 0) {
+        return null;
+    }
+
+    const candidate = data.candidates[0];
+
+    // 2. Check for Safety/Finish reasons on the candidate level
+    if (candidate.finishReason && candidate.finishReason !== "STOP") {
+        return `Response stopped due to: ${candidate.finishReason}`;
+    }
+
+    // 3. Extract text from parts
+    const parts = candidate.content?.parts;
+    if (Array.isArray(parts)) {
+        const joined = parts.map(p => p.text || "").join("").trim();
+        if (joined) return joined;
+    }
+
+    return null;
 }
 
-async function askGemini(userText){
-const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${"AIzaSyDDuSipxv7uPhDoceYoZlaof4SIS28oaBs"}`;
+async function askGemini(userText) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
-const payload = {
-contents: [
-{
-role: "user",
-parts:  [
-{
-text: `
-${SYSTEM_PROMPT}
+    const payload = {
+        contents: [
+            {
+                role: "user",
+                parts: [
+                    {
+                        text: `
+${SYS_PROMPT_SAFE}
 
 ----- RESUME CONTEXT -----
-${RESUME_CONTEXT}
+${RESUME_CTX_SAFE}
 ----- END CONTEXT -----
 
 User question: ${userText}
 
 You MUST answer only using the resume context above.
-       `
+                        `
+                    }
+                ]
+            }
+        ],
+        // CRITICAL: Safety settings to prevent "No text returned" on benign queries
+        safetySettings: [
+            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
+            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
+            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" }
+        ]
+    };
+
+    const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error?.message || `API Error: ${res.status}`);
+    }
+
+    const data = await res.json();
+    const answer = extractAnswer(data);
+
+    return answer || "⚠️ The model responded, but did not return text. This is likely due to a safety filter.";
 }
-]
-
-}
-]
-};
-
-const res = await fetch(url, {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify(payload)
-});
-
-const data = await res.json();
-const answer = extractAnswer(data);
-
-return answer || "⚠️ The model responded, but did not return text. Try rephrasing your question.";
-}
-
-
-
 </script>
 </body>
 </html>
