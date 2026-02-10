@@ -1153,7 +1153,7 @@ async function onSend(){
 }
 
 async function askGemini(userText){
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
   
   const systemPrompt = `You are an AI assistant embedded in Satya's portfolio website. 
 Your ONLY job is to answer questions about Satya's resume, experience, projects, and skills using ONLY the information provided in the RESUME CONTEXT below.
