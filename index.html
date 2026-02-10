@@ -1,311 +1,966 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Resume Chat Widget</title>
-    <style>
-        /* ===== CSS STYLES ===== */
-        :root {
-            --primary-color: #007bff;
-            --text-color: #333;
-            --bg-color: #f4f4f9;
-            --chat-width: 350px;
-            --chat-height: 500px;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Akella Sri Satya Vijay — Portfolio + AI</title>
+<meta name="description" content="Akella Sri Satya Vijay · AI/ML Engineer · Multi-Agent Systems · GenAI · RAG · Portfolio with AI Resume Assistant">
+<style>
+:root{
+--bg:#07090f;
+--panel: rgba(255,255,255,0.03);
+--muted:#9aa4b2;
+--text:#e6eef8;
+--accent1:#7dd3fc;
+--accent2:#a78bfa;
+--glass: rgba(255,255,255,0.04);
+--glass-2: rgba(255,255,255,0.02);
+--error:#ff6b6b;
+--ok:#60d394;
+--shadow: 0 16px 40px rgba(2,6,23,.45);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #eef;
-            margin: 0;
-            padding: 20px;
-        }
+/* Background */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.layer{position:absolute;inset:-20%;filter:blur(50px);opacity:0.32;transform:translate3d(0,0,0);transition:transform .1s ease-out}
+.l1{background:
+radial-gradient(600px 400px at 10% 20%, rgba(125,211,252,.18), transparent 60%),
+radial-gradient(700px 450px at 80% 10%, rgba(167,139,250,.14), transparent 60%);
+}
+.l2{opacity:0.20;background:
+radial-gradient(700px 500px at 20% 80%, rgba(167,139,250,.18), transparent 60%),
+radial-gradient(700px 500px at 90% 70%, rgba(125,211,252,.16), transparent 60%);
+}
+.hero-aurora{position:absolute;left:0;right:0;height:420px;top:0;z-index:0;opacity:.25;filter:blur(30px);
+background: radial-gradient(700px 300px at 30% 10%, rgba(125,211,252,.24), transparent 60%),
+radial-gradient(600px 280px at 70% 0%, rgba(167,139,250,.24), transparent 65%);
+}
 
-        /* Floating Action Button (FAB) */
-        #ai-fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: white;
-            font-size: 24px;
-            transition: transform 0.2s;
-            z-index: 1000;
-        }
+/* Layout */
+.wrap{position:relative;z-index:1;max-width:1220px;margin:40px auto;padding:28px}
+header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0}
+.brand{display:flex;gap:16px;align-items:center}
+.logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:grid;place-items:center;font-weight:800;color:#021;font-size:20px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+h1{margin:0;font-size:22px;letter-spacing:.3px}
+.contact-links{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.chip{background:var(--glass);padding:8px 12px;border-radius:999px;font-size:13px;color:var(--muted);border:1px solid rgba(255,255,255,.06)}
 
-        #ai-fab:hover {
-            transform: scale(1.1);
-        }
+/* Cards / Hero */
+.hero{position:relative;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:18px}
+.hero .hero-aurora{top:-40px}
+.card{position:relative;padding:22px;border-radius:16px;background:linear-gradient(180deg,var(--panel),transparent);border:1px solid rgba(255,255,255,.06);box-shadow:var(--shadow);transition:transform .2s ease, box-shadow .2s ease}
+.kicker{display:inline-block;padding:8px 12px;border-radius:999px;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#031018;font-weight:800;margin-bottom:12px;font-size:13px}
+.hero h2{font-size:48px;line-height:1.02;margin:8px 0 14px}
+.lead{color:var(--muted);font-size:18px;margin-bottom:18px;max-width:70%}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn-lg{padding:14px 20px;border-radius:14px;background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;color:#021;font-weight:800;cursor:pointer;box-shadow:0 12px 30px rgba(96,239,255,.06)}
+.btn-outline{padding:12px 16px;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--text);cursor:pointer}
+.pill{padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.04);font-size:13px;border:1px solid rgba(255,255,255,.06);color:var(--muted)}
+.hero-right .stat{font-weight:800;font-size:22px}
+.hint{color:var(--muted);font-size:12px}
 
-        /* Chat Panel */
-        #ai-panel {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            width: var(--chat-width);
-            height: var(--chat-height);
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            display: none; /* Hidden by default */
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 1000;
-            border: 1px solid #ddd;
-        }
+/* Sections */
+section.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.experience{margin-top:34px;display:grid;grid-template-columns:2fr 1fr;gap:22px}
+.projects{display:grid;gap:12px}
 
-        /* Header */
-        .ai-header {
-            background: var(--primary-color);
-            color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-        }
+/* Contact */
+.contact-card{margin-top:28px;padding:22px;border-radius:16px;background:linear-gradient(180deg,var(--panel),transparent);border:1px solid rgba(255,255,255,.06)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{position:relative}
+.input{width:100%;padding:16px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--text);font-size:15px;outline:none}
+.input:focus{box-shadow:0 0 0 3px rgba(125,211,252,.18);border-color:rgba(125,211,252,.6)}
+.textarea{min-height:140px;resize:vertical;padding:14px}
+label.floater{position:absolute;left:12px;top:10px;color:var(--muted);pointer-events:none;transition:all .18s ease;background:transparent;padding:0 6px}
+.input:focus + label.floater, .input:not(:placeholder-shown) + label.floater{top:-10px;font-size:12px;color:var(--accent1)}
+.submit-row{display:flex;align-items:center;gap:12px;margin-top:12px}
+.error{color:#ff7b7b;font-size:12px;margin-top:6px;display:none}
 
-        .ai-close-btn {
-            cursor: pointer;
-            font-size: 20px;
-            background: none;
-            border: none;
-            color: white;
-        }
+/* KPI Gauges */
+.impact{margin-top:36px}
+.impact h3{margin:0 0 12px;font-size:24px}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.kpi{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);border:1px solid rgba(255,255,255,.06)}
+.kpi svg{width:170px;height:170px}
+.kpi .num{position:absolute;inset:0;display:grid;place-items:center;font-size:28px;font-weight:800}
+.kpi-title{font-weight:700;margin-top:6px}
+.kpi-desc{color:var(--muted);font-size:13px;text-align:center;max-width:280px}
+@media (max-width:1000px){ .kpi-grid{grid-template-columns:1fr 1fr} }
+@media (max-width:650px){ .kpi-grid{grid-template-columns:1fr} .kpi svg{width:160px;height:160px} }
 
-        /* Messages Area */
-        #ai-body {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            background: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+/* Project cards */
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:12px}
+.project{padding:18px;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.02),transparent);border:1px solid rgba(255,255,255,.06);transition:transform .2s}
+.project:hover{transform:translateY(-6px)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.tag{padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);font-size:12px;color:var(--muted)}
+@media (max-width:1000px){ .projects-grid{grid-template-columns:1fr 1fr} }
+@media (max-width:650px){ .projects-grid{grid-template-columns:1fr} }
 
-        .ai-msg {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 14px;
-            font-size: 14px;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
+/* Footer */
+footer{margin-top:36px;color:var(--muted);font-size:13px;padding-bottom:40px}
 
-        .ai-bot {
-            align-self: flex-start;
-            background: white;
-            border: 1px solid #ddd;
-            border-bottom-left-radius: 2px;
-            color: var(--text-color);
-        }
+/* Responsive */
+@media (max-width:1100px){ .hero{grid-template-columns:1fr} .cards{grid-template-columns:1fr 1fr} .experience{grid-template-columns:1fr} .wrap{padding:20px} .lead{max-width:100%} }
+@media (max-width:700px){ .cards{grid-template-columns:1fr} .brand h1{font-size:18px} }
 
-        .ai-user {
-            align-self: flex-end;
-            background: var(--primary-color);
-            color: white;
-            border-bottom-right-radius: 2px;
-        }
+/* Animations */
+.fade-in-up{opacity:0;transform:translateY(12px);animation:fadeUp .8s ease forwards}
+.stagger-1{animation-delay:.12s}
+.stagger-2{animation-delay:.22s}
+.stagger-3{animation-delay:.34s}
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 
-        /* Input Area */
-        .ai-footer {
-            padding: 10px;
-            border-top: 1px solid #eee;
-            background: white;
-            display: flex;
-            gap: 10px;
-        }
+/* Tilt */
+.tilt{will-change:transform;transform-style:preserve-3d;perspective:1000px}
+.tilt::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .25s;box-shadow:0 0 80px rgba(125,211,252,.10)}
+.tilt.hovered::after{opacity:1}
+/* AI Widget – Fixed Clickable + Neon Gradient Edition */
 
-        #ai-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            outline: none;
-        }
+/* AI Widget */
+.ai-fab{
+position:fixed;right:18px;bottom:18px;width:58px;height:58px;border-radius:50%;
+background:linear-gradient(135deg,#00c6ff,#0072ff); /* fallback gradient */
+border:none;color:#fff;font-weight:900;
+display:grid;place-items:center;cursor:pointer;
+box-shadow:0 0 20px rgba(0,198,255,0.6),0 0 40px rgba(0,114,255,0.4);
+z-index:999999; /* stays on top always */
+transition:all .3s ease;
+animation:aiSleep 4s ease-in-out infinite;
+}
 
-        #ai-input:focus {
-            border-color: var(--primary-color);
-        }
+/* Breathing effect while idle */
+@keyframes aiSleep{
+0%,100%{
+transform:scale(1);
+box-shadow:0 0 10px rgba(0,198,255,0.4),0 0 25px rgba(0,114,255,0.2);
+filter:brightness(0.9);
+}
+50%{
+transform:scale(1.06);
+box-shadow:0 0 25px rgba(0,198,255,0.7),0 0 40px rgba(0,114,255,0.4);
+filter:brightness(1.15);
+}
+}
 
-        #ai-send {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+.ai-fab:hover{
+transform:scale(1.12);
+box-shadow:0 0 30px rgba(0,198,255,0.7),0 0 60px rgba(0,114,255,0.4);
+filter:brightness(1.2);
+}
 
-        #ai-send:hover {
-            opacity: 0.9;
-        }
-    </style>
+.ai-fab:active{
+animation:aiWake 0.5s ease;
+background:linear-gradient(135deg,var(--accent1),var(--accent2));border:none;color:#021;font-weight:900;
+display:grid;place-items:center;cursor:pointer;box-shadow:0 14px 40px rgba(0,0,0,.5);z-index:9999;
+}
+
+@keyframes aiWake{
+0%{transform:scale(1);}
+25%{transform:scale(1.2) rotate(3deg);}
+50%{transform:scale(1.05) rotate(-3deg);}
+75%{transform:scale(1.1);}
+100%{transform:scale(1);}
+}
+
+/* Chat Panel */
+.ai-panel{
+position:fixed;right:18px;bottom:86px;width:460px;max-height:82vh;border-radius:16px;
+background:rgba(12,14,20,0.96);backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,0.1);
+box-shadow:0 20px 60px rgba(0,0,0,0.6);
+display:none;flex-direction:column;overflow:hidden;z-index:99999;
+opacity:0;transform:translateY(10px);transition:all .4s ease;
+}
+
+.ai-panel.active{
+display:flex;opacity:1;transform:translateY(0);
+}
+
+/* Header */
+.ai-header{
+padding:12px 14px;display:flex;align-items:center;justify-content:space-between;
+border-bottom:1px solid rgba(255,255,255,0.06);
+background:linear-gradient(90deg,#00c6ff,#0072ff);color:#021;
+box-shadow:0 2px 12px rgba(0,198,255,0.3);
+}
+
+.ai-title{font-weight:800;font-size:14px;}
+
+.ai-close{
+background:transparent;border:none;color:#ccc;cursor:pointer;font-size:18px;
+transition:transform .25s ease,color .2s ease;
+}
+
+.ai-close:hover{transform:rotate(90deg);color:#00c6ff;}
+
+/* Body */
+.ai-body{
+padding:12px;overflow:auto;display:flex;flex-direction:column;gap:10px;
+scroll-behavior:smooth;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(0,0,0,0.2));
+}
+
+.ai-msg{
+padding:10px 12px;border-radius:12px;max-width:85%;line-height:1.35;
+box-shadow:0 6px 20px rgba(0,0,0,0.3);
+animation:fadeIn .3s ease;
+font-size:14px;
+}
+
+.ai-user{
+align-self:flex-end;background:linear-gradient(90deg,#00c6ff,#0072ff);
+color:#031018;font-weight:700;
+}
+
+.ai-bot{
+align-self:flex-start;background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.06);color:#eaf6ff;
+}
+
+/* Input */
+.ai-input{
+display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.06);
+background:rgba(0,0,0,.3);backdrop-filter:blur(6px);
+}
+
+.ai-input input{
+flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,.1);
+background:transparent;color:#eaf6ff;outline:none;transition:all .3s ease;
+}
+
+.ai-input input:focus{
+border-color:#00c6ff;box-shadow:0 0 10px #00c6ff;
+}
+
+.ai-input button{
+padding:10px 12px;border-radius:10px;border:none;
+background:linear-gradient(90deg,#00c6ff,#0072ff);color:#031018;font-weight:800;cursor:pointer;
+transition:all .3s ease;
+}
+
+.ai-input button:hover{
+transform:translateY(-2px);box-shadow:0 0 20px #00c6ff;filter:brightness(1.1);
+}
+
+/* Tip */
+.ai-tip{
+font-size:12px;color:#9aa8b3;padding:0 12px 10px;text-align:center;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(5px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@media (max-width:480px){
+.ai-panel{right:10px;left:10px;width:auto;}
+}
+
+position:fixed;right:18px;bottom:86px;width:480px;max-height:85vh;border-radius:16px;
+background:rgba(10,12,18,.96);backdrop-filter:blur(8px);
+border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 60px rgba(0,0,0,.6);
+display:none;flex-direction:column;overflow:hidden;z-index:9999;
+}
+.ai-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)}
+.ai-title{font-weight:800;font-size:14px}
+.ai-close{background:transparent;border:none;color:var(--muted);cursor:pointer}
+.ai-body{padding:12px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.ai-msg{padding:10px 12px;border-radius:12px;max-width:85%;line-height:1.35;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.ai-user{align-self:flex-end;background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#031018}
+.ai-bot{align-self:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06)}
+.ai-input{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.25)}
+.ai-input input{flex:1;padding:12px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:var(--text);outline:none}
+.ai-input button{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#031018;font-weight:800;cursor:pointer}
+.ai-tip{font-size:12px;color:var(--muted);padding:0 12px 10px}
+@media (max-width:480px){ .ai-panel{right:10px;left:10px;width:auto} }
+</style>
 </head>
 <body>
+<!-- Background -->
+<div class="bg" aria-hidden="true">
+<div class="layer l1" id="bg1"></div>
+<div class="layer l2" id="bg2"></div>
+</div>
 
-    <h1>My Portfolio Site</h1>
-    <p>Click the chat button in the bottom right corner to talk to my AI assistant.</p>
+<div class="wrap">
+<header class="fade-in-up stagger-1">
+<div class="brand tilt" data-tilt>
+<div class="logo">SV</div>
+<div>
+<h1>Akella Sri Satya Vijay</h1>
+<div style="color:var(--muted);font-size:13px">AI/ML Engineer · Multi-Agent Systems · GenAI</div>
+</div>
+</div>
 
-    <div id="ai-fab">💬</div>
+<div class="contact-links">
+<div class="chip">+91 9391520600</div>
+<a class="chip" href="mailto:akellasrisatyavijay2@gmail.com">akellasrisatyavijay2@gmail.com</a>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<a class="chip" href="https://www.linkedin.com/in/satyavijay/" target="_blank">LinkedIn</a>
+<a class="chip" href="https://github.com/Satya7745/" target="_blank">GitHub</a>
+<a class="chip" href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank">LeetCode</a>
+  <div class="chip">+91 9391520600</div>
+  <a class="chip" href="mailto:akellasrisatyavijay2@gmail.com">akellasrisatyavijay2@gmail.com</a>
 
-    <div id="ai-panel">
-        <div class="ai-header">
-            <span>Ask about my Resume</span>
-            <button id="ai-close" class="ai-close-btn">&times;</button>
-        </div>
-        <div id="ai-body">
-            <div class="ai-msg ai-bot">Hi! I'm an AI assistant. Ask me anything about this resume.</div>
-        </div>
-        <div class="ai-footer">
-            <input type="text" id="ai-input" placeholder="Type a message..." autocomplete="off">
-            <button id="ai-send">Send</button>
-        </div>
-    </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <a class="chip linkedin" href="https://www.linkedin.com/in/satyavijay/" target="_blank">LinkedIn</a>
+    <a class="chip github" href="https://github.com/Satya7745/" target="_blank">GitHub</a>
+    <a class="chip leetcode" href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank">LeetCode</a>
+  </div>
+</div>
 
-    <script>
-        /**
-         * CONFIGURATION
-         * Replace with your actual API Key and content.
-         */
-        const GEMINI_API_KEY = "YOUR_VALID_API_KEY_HERE"; 
-        const GEMINI_MODEL = "gemini-2.0-flash"; // Or 'gemini-1.5-flash'
-        
-        const SYSTEM_PROMPT = "You are a helpful assistant representing a professional software engineer.";
-        const RESUME_CONTEXT = `
-            Name: John Doe
-            Role: Full Stack Developer
-            Skills: JavaScript, HTML, CSS, React, Node.js
-            Experience: 5 Years at Tech Corp.
-            Education: BS Computer Science.
-        `;
+<style>
+.chip {
+display: inline-block;
+padding: 10px 18px;
+border-radius: 25px;
+color: white;
+text-decoration: none;
+font-weight: 600;
+letter-spacing: 0.5px;
+background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+box-shadow: 0 0 10px rgba(255,255,255,0.1);
+transition: all 0.3s ease;
+animation: float 3s ease-in-out infinite;
+}
 
-        // DOM Elements
-        const $fab = document.getElementById('ai-fab');
-        const $panel = document.getElementById('ai-panel');
-        const $close = document.getElementById('ai-close');
-        const $body = document.getElementById('ai-body');
-        const $input = document.getElementById('ai-input');
-        const $send = document.getElementById('ai-send');
+.linkedin {
+background: linear-gradient(90deg, #0077b5, #00a0dc);
+}
 
-        // Event Listeners
-        $fab.addEventListener('click', () => { 
-            $panel.style.display = 'flex'; 
-            $input.focus(); 
-        });
+.github {
+background: linear-gradient(90deg, #24292e, #3d3d3d);
+}
 
-        $close.addEventListener('click', () => { 
-            $panel.style.display = 'none'; 
-        });
+.leetcode {
+background: linear-gradient(90deg, #f89f1b, #f7b733);
+color: #1a1a1a;
+font-weight: 700;
+}
 
-        $send.addEventListener('click', onSend);
+.chip:hover {
+transform: translateY(-4px);
+}
 
-        $input.addEventListener('keydown', (e) => { 
-            if (e.key === 'Enter') { 
-                onSend(); 
-            }
-        });
+.linkedin:hover {
+box-shadow: 0 0 20px rgba(0,119,181,0.8);
+}
 
-        // Core Functions
-        function addMsg(text, who = 'bot') {
-            const div = document.createElement('div');
-            div.className = 'ai-msg ' + (who === 'user' ? 'ai-user' : 'ai-bot');
-            div.textContent = text;
-            $body.appendChild(div);
-            $body.scrollTop = $body.scrollHeight;
-        }
+.github:hover {
+box-shadow: 0 0 20px rgba(255,255,255,0.4);
+}
 
-        async function onSend() {
-            const q = ($input.value || '').trim();
-            if (!q) return;
+.leetcode:hover {
+box-shadow: 0 0 20px rgba(248,159,27,0.8);
+}
 
-            // UI Updates
-            addMsg(q, 'user');
-            $input.value = '';
-            addMsg('Typing...', 'bot');
+@keyframes float {
+0%, 100% { transform: translateY(0); }
+50% { transform: translateY(-4px); }
+}
 
-            try {
-                // Determine API Key to use (Input validation)
-                if (GEMINI_API_KEY === "YOUR_VALID_API_KEY_HERE") {
-                    throw new Error("Please configure the GEMINI_API_KEY in the script.");
-                }
+.linkedin { animation-delay: 0s; }
+.github { animation-delay: 1s; }
+.leetcode { animation-delay: 2s; }
+</style>
 
-                const answer = await askGemini(q);
-                
-                // Update the "Typing..." message
-                const lastBotMsg = $body.querySelector('.ai-msg.ai-bot:last-child');
-                if (lastBotMsg) {
-                    lastBotMsg.textContent = answer;
-                }
-            } catch (err) {
-                console.error("Chat Error:", err);
-                const lastBotMsg = $body.querySelector('.ai-msg.ai-bot:last-child');
-                if (lastBotMsg) {
-                    lastBotMsg.textContent = 'Error: ' + (err.message || 'Something went wrong');
-                    lastBotMsg.style.color = 'red';
-                }
-            }
-        }
+</header>
 
-        function extractAnswer(data) {
-            // Error from API?
-            if (data.error) {
-                throw new Error(data.error.message || "API Error");
-            }
+<main>
 
-            // Standard Gemini response path
-            const parts = data?.candidates?.[0]?.content?.parts;
-            if (Array.isArray(parts)) {
-                return parts.map(p => p.text || "").join("").trim();
-            }
+<section class="hero" aria-label="Intro">
+<div class="hero-aurora"></div>
+<div class="card tilt fade-in-up stagger-2" data-tilt>
+<div class="kicker">Production AI · Multi-Agent · RAG</div>
+<h2>Shipping production-grade AI that moves metrics.</h2>
+<p class="lead">I build agentic systems, RAG pipelines, and automation that scale across Azure & Google Cloud — focused on latency, reliability, and measurable business outcomes.</p>
+<div class="cta-row">
+<button class="btn-lg" onclick="document.getElementById('impact').scrollIntoView({behavior:'smooth'})">See Impact</button>
+<button class="btn-outline" id="downloadBtn">Download Resume</button>
+</div>
 
-            // Fallback path
-            const alt = data?.output_text || data?.outputText;
-            if (alt) return alt;
+<div style="margin-top:22px">
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<div class="pill">RAG & Retrieval</div>
+<div class="pill">Agentic Orchestration</div>
+<div class="pill">MLOps & CI/CD</div>
+<div class="pill">Prompt Engineering</div>
+</div>
+</div>
+</div>
 
-            return "No response text found.";
-        }
+<aside class="card tilt fade-in-up stagger-3" data-tilt>
+<div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+<div style="width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:grid;place-items:center;font-weight:800;color:#021">SV</div>
+<div>
+<div style="font-weight:800">AI/ML Engineer at LTIMindtree</div>
+<div style="color:var(--muted);font-size:13px;margin-top:6px">Hyderabad · Sep 2023 – Present</div>
+</div>
+</div>
 
-        async function askGemini(userText) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+<div style="margin-top:8px">
+<div style="font-weight:700;color:var(--accent1)">Profile Summary</div>
+<p style="margin-top:6px;color:var(--muted);font-size:14px">2.5+ years designing and deploying multi-agent AI systems, RAG pipelines and automation across Azure & Google Cloud — delivering measurable business impact and production-ready reliability.</p>
+</div>
 
-            const payload = {
-                contents: [
-                    {
-                        role: "user",
-                        parts: [
-                            {
-                                text: `${SYSTEM_PROMPT}\n\n----- RESUME CONTEXT -----\n${RESUME_CONTEXT}\n----- END CONTEXT -----\n\nUser question: ${userText}\n\nYou MUST answer only using the resume context above.`
-                            }
-                        ]
-                    }
-                ]
-            };
+<div style="margin-top:12px;display:flex;justify-content:space-between;gap:12px">
+<div style="text-align:center">
+<div class="hero-right stat">95%</div>
+<div class="hint">Query Accel.</div>
+</div>
+<div style="text-align:center">
+<div class="hero-right stat">90%</div>
+<div class="hint">RAG Accuracy</div>
+</div>
+<div style="text-align:center">
+<div class="hero-right stat">75%</div>
+<div class="hint">Infra Cost ↓</div>
+</div>
+</div>
+</aside>
+</section>
+<!-- Summary cards -->
+<section class="cards" aria-label="Core Competencies">
+<div class="card tilt" data-tilt>
+<h3>Core Competencies</h3>
+<div class="skills" style="margin-top:10px">
+<div class="pill">LLM Deployment</div><div class="pill">Fine-tuning</div><div class="pill">RAG</div><div class="pill">Agent Frameworks</div>
+<div class="pill">Prompt Engineering</div><div class="pill">CI/CD</div><div class="pill">Observability</div><div class="pill">Vector DBs (FAISS/Qdrant)</div>
+</div>
+</div>
+<div class="card tilt" data-tilt>
+<h3>Technical Skills</h3>
+<div style="margin-top:10px">
+Python · PyTorch · HuggingFace · Azure OpenAI · OpenAI · Microsoft Copilot · RAG · Multi Agent System · MCP · Power Automate · Vector DB · AutoGen · LangChain · Azure AI · GCP Vertex · FAISS · Qdrant · Chroma · Docker · Kubernetes · GitHub Actions · FastAPI · Flask
+</div>
+</div>
+<div class="card tilt" data-tilt>
+<h3>Certifications</h3>
+<div style="margin-top:10px;color:var(--muted);font-size:14px">
+<br>
+· <a href="https://www.credly.com/badges/159292df-4ca3-442c-a2c0-f4f94a6d36b9/linked_in_profile" target="_blank">
+Generative AI Leader (Google)
+</a>
+<br>
+· <a href="https://www.credly.com/badges/159292df-4ca3-442c-a2c0-f4f94a6d36b9/linked_in_profile" target="_blank">
+Professional ML Engineer (Google)
+</a>
+<br>
+· <a href="https://www.coursera.org/account/accomplishments/verify/NIE8IVCJIW8M" target="_blank">
+Stanford Advanced Learning Algorithms
+</a>
 
-            const res = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
+</div>
+</div>
+</section>
 
-            if (!res.ok) {
-                const errorData = await res.json().catch(() => ({}));
-                throw new Error(errorData.error?.message || `HTTP Status ${res.status}`);
-            }
+<!-- Experience -->
+<section class="experience" aria-label="Experience">
+<div class="card tilt" data-tilt>
+<h4>AI/ML Engineer — LTIMindtree</h4>
+<div class="hint">Hyderabad · Sep 2023 – Present</div>
+<p style="color:var(--muted)">Leading design and deployment of multi-agent AI systems and RAG pipelines using LangChain, Azure AI Foundry, and vector databases. Implemented CI/CD, containerized services, observability dashboards and improved production metrics across latency and reliability.</p>
+<ul style="margin-top:12px;color:var(--muted)">
+<li>Spearheaded multi-agent Response AI reducing query resolution time by 95% and improving satisfaction by 92%.</li>
+<li>Built RAG ingestion pipeline achieving 90% faster retrieval and 85% accuracy improvements.</li>
+<li>Designed observability dashboards, reducing failure incidents by 91% and optimized token cost per query by 90%.</li>
+</ul>
+</div>
 
-            const data = await res.json();
-            return extractAnswer(data);
-        }
-    </script>
+<aside class="card tilt" data-tilt>
+<h4>Education & Achievements</h4>
+<div class="hint">B.Sc. Computer Science — Adikavi Nannayya University, 2023</div>
+<div style="margin-top:10px;color:var(--muted)">
+<strong>Awards:</strong> 
+<br>· Super Crew Award @ LTIMindtree 
+<br>· 4‑Star Appraisal Performer 
+<br>· Hackathon winner 
+<br><strong>Achievements:</strong> 
+<br>· Top 1% HackerRank.
+</div>
+</aside>
+</section>
+
+
+<!-- KPI Impact Section -->
+<section id="impact" class="impact">
+<h3>Key Achievements & Impact</h3>
+<div class="kpi-grid">
+<div class="kpi" data-target="95">
+<div style="position:relative">
+<svg viewBox="0 0 120 120" class="gauge">
+<circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"></circle>
+<circle class="bar" cx="60" cy="60" r="50" stroke="url(#grad1)" stroke-width="10" fill="none"
+stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+transform="rotate(-90 60 60)"></circle>
+<defs>
+<linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+<stop offset="0%" stop-color="var(--accent1)" />
+<stop offset="100%" stop-color="var(--accent2)" />
+</linearGradient>
+</defs>
+</svg>
+<div class="num">0%</div>
+</div>
+<div class="kpi-title">Query Resolution</div>
+<div class="kpi-desc">Reduction in average query resolution time via multi-agent AI.</div>
+</div>
+
+<div class="kpi" data-target="92">
+<div style="position:relative">
+<svg viewBox="0 0 120 120" class="gauge">
+<circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"></circle>
+<circle class="bar" cx="60" cy="60" r="50" stroke="url(#grad1)" stroke-width="10" fill="none"
+stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+transform="rotate(-90 60 60)"></circle>
+</svg>
+<div class="num">0%</div>
+</div>
+<div class="kpi-title">User Satisfaction</div>
+<div class="kpi-desc">Increase in customer satisfaction after rollout.</div>
+</div>
+
+<div class="kpi" data-target="90">
+<div style="position:relative">
+<svg viewBox="0 0 120 120" class="gauge">
+<circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"></circle>
+<circle class="bar" cx="60" cy="60" r="50" stroke="url(#grad1)" stroke-width="10" fill="none"
+stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+transform="rotate(-90 60 60)"></circle>
+</svg>
+<div class="num">0%</div>
+</div>
+<div class="kpi-title">Retrieval Speed</div>
+<div class="kpi-desc">Acceleration in data retrieval times via RAG-based solution.</div>
+</div>
+
+<div class="kpi" data-target="85">
+<div style="position:relative">
+<svg viewBox="0 0 120 120" class="gauge">
+<circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"></circle>
+<circle class="bar" cx="60" cy="60" r="50" stroke="url(#grad1)" stroke-width="10" fill="none"
+stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+transform="rotate(-90 60 60)"></circle>
+</svg>
+<div class="num">0%</div>
+</div>
+<div class="kpi-title">Information Accuracy</div>
+<div class="kpi-desc">Enhancement in accuracy within knowledge systems.</div>
+</div>
+
+<div class="kpi" data-target="83">
+<div style="position:relative">
+<svg viewBox="0 0 120 120" class="gauge">
+<circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"></circle>
+<circle class="bar" cx="60" cy="60" r="50" stroke="url(#grad1)" stroke-width="10" fill="none"
+stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+transform="rotate(-90 60 60)"></circle>
+</svg>
+<div class="num">0%</div>
+</div>
+<div class="kpi-title">Cost Reduction</div>
+<div class="kpi-desc">Decrease in infrastructure costs through optimization.</div>
+</div>
+
+<div class="kpi" data-target="91">
+<div style="position:relative">
+<svg viewBox="0 0 120 120" class="gauge">
+<circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,.08)" stroke-width="10" fill="none"></circle>
+<circle class="bar" cx="60" cy="60" r="50" stroke="url(#grad1)" stroke-width="10" fill="none"
+stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"
+transform="rotate(-90 60 60)"></circle>
+</svg>
+<div class="num">0%</div>
+</div>
+<div class="kpi-title">Failure Reduction</div>
+<div class="kpi-desc">Reduction in failure incidents via dashboards.</div>
+</div>
+</div>
+</section>
+
+<!-- Projects -->
+<section style="margin-top:28px">
+<h3 style="margin:0 0 12px">Featured Projects</h3>
+<div class="projects-grid">
+<div class="project">
+<h4>Response AI — Agentic Escalation Analysis</h4>
+<p class="hint">Automates entity extraction, KQL generation, log analysis and response generation using multi-agent orchestration.</p>
+<div class="tags">
+<span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">Azure AI</span><span class="tag">RAG</span><span class="tag">Docker</span>
+</div>
+</div>
+<div class="project">
+<h4>KQL Auto-Query Agent</h4>
+<p class="hint">Converts natural language to executable KQL queries and runs them via secure API with guardrails.</p>
+<div class="tags">
+<span class="tag">LangChain</span><span class="tag">KQL</span><span class="tag">Vector DB</span><span class="tag">Flask</span>
+</div>
+</div>
+<div class="project">
+<h4>Low-Latency RAG @ Scale</h4>
+<p class="hint">1000 QPS design with vector cache, ANN, chunking strategy, query planner and speculative fetch.</p>
+<div class="tags">
+<span class="tag">FAISS</span><span class="tag">Qdrant</span><span class="tag">FastAPI</span><span class="tag">Redis</span>
+</div>
+</div>
+</div>
+
+<h3 style="margin:24px 0 12px">POC Projects</h3>
+<div class="projects-grid">
+<div class="project">
+<h4>Agentic Learning Assistant</h4>
+<p class="hint">Planner-Critic-Tooling loop for interactive learning and quizzes.</p>
+<div class="tags"><span class="tag">Agents</span><span class="tag">Tools</span><span class="tag">Eval</span></div>
+</div>
+<div class="project">
+<h4>MDO MLOps Automation</h4>
+<p class="hint">CI/CD, feature stores, evals & rollout safety for AI services.</p>
+<div class="tags"><span class="tag">MLOps</span><span class="tag">Kubernetes</span><span class="tag">GitHub Actions</span></div>
+</div>
+<div class="project">
+<h4>Resume Matcher</h4>
+<p class="hint">Embeddings-based resume ↔ JD matcher with score explanation.</p>
+<div class="tags"><span class="tag">RAG</span><span class="tag">Embeddings</span><span class="tag">Streamlit</span></div>
+</div>
+</div>
+</section>
+
+<!-- Contact Form -->
+<section id="contact" class="contact-card tilt" data-tilt aria-label="Contact form">
+<h3>Contact Me</h3>
+<p class="hint" style="margin-top:6px">Fill the form — your message will be emailed to me.</p>
+
+<form action="https://formsubmit.co/akellasrisatyavijay2@gmail.com" method="POST" id="contactForm" style="margin-top:12px" novalidate>
+<input type="hidden" name="_subject" value="New Portfolio Contact — Satya">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="_redirect" value="javascript:void(0);">
+
+
+<div class="form-grid">
+<div class="field">
+<input class="input" type="text" name="name" id="name" placeholder=" " required minlength="2" />
+<label class="floater" for="name">Full name</label>
+<div class="error" id="err-name">Please enter your name (min 2 characters).</div>
+</div>
+<div class="field">
+<input class="input" type="email" name="email" id="email" placeholder=" " required />
+<label class="floater" for="email">Email address</label>
+<div class="error" id="err-email">Please enter a valid email address.</div>
+</div>
+<div class="field">
+<input class="input" type="text" name="mobile" id="mobile" placeholder=" " required pattern="^[0-9+\-\s]{10,15}$" />
+<label class="floater" for="mobile">Mobile number</label>
+<div class="error" id="err-mobile">Enter 10–15 digits (you may include +, - or spaces).</div>
+</div>
+<div class="field">
+<input class="input" type="text" name="organization" id="organization" placeholder=" " required />
+<label class="floater" for="organization">Organization / Company</label>
+<div class="error" id="err-organization">Please enter your organization / company.</div>
+</div>
+</div>
+
+<div style="margin-top:12px">
+<div class="field">
+<textarea class="input textarea" name="message" id="message" placeholder=" " required minlength="5"></textarea>
+<label class="floater" for="message">Message</label>
+<div class="error" id="err-message">Please enter a short message.</div>
+</div>
+</div>
+
+<div class="submit-row">
+<button class="btn-lg" type="submit">Send Message</button>
+<div class="hint">No sign-in required. You'll also get an auto-reply.</div>
+</div>
+
+<!-- ✅ Success / Error message will appear here -->
+
+</form>
+</section>
+
+<footer>
+© <span id="year"></span> Akella Sri Satya Vijay — Built with intent • Resume & projects above.
+</footer>
+</main>
+</div>
+
+<!-- Floating AI Assistant -->
+<button class="ai-fab" id="aiFab" title="Ask AI About Me">AI</button>
+<div class="ai-panel" id="aiPanel" role="dialog" aria-label="Ask AI About Me">
+<div class="ai-header">
+<div class="ai-title">Ask AI About Me</div>
+<button class="ai-close" id="aiClose">✕</button>
+</div>
+<div class="ai-body" id="aiBody">
+<div class="ai-msg ai-bot">Hi! Ask me anything about Satya’s experience, projects, or skills. I’ll answer only from his resume.</div>
+</div>
+<div class="ai-input">
+<input id="aiText" type="text" placeholder="e.g., What did Satya build for RAG?" />
+<button id="aiSend">Send</button>
+</div>
+</div>
+
+<!-- Main JS (module for Gemini SDK) -->
+<script type="module">
+import { GoogleGenerativeAI } from "https://esm.sh/@google/generative-ai?client";
+
+/* ====== EDIT ONLY THIS LINE ====== */
+const GEMINI_API_KEY = "YOUR_API_KEY_HERE";
+/* ================================= */
+
+const GEMINI_MODEL = "gemini-2.5-flash";
+
+// Minimal resume context for single-prompt answering
+const RESUME_CONTEXT = `
+Name: Akella Sri Satya Vijay (Satya) | AI/ML Engineer | Hyderabad | +91 9391520600 | akellasrisatyavijay2@gmail.com | LinkedIn: satyavijay | GitHub: Satya7745
+
+Summary:
+- 2.5+ years designing and deploying agentic systems, RAG pipelines, and automation across Azure & Google Cloud.
+- Focus: latency, reliability, observability, and measurable business outcomes.
+
+Experience:
+- AI/ML Engineer — LTIMindtree (Sep 2023 – Present, Hyderabad)
+• Built multi-agent Response AI: reduced query resolution time ~95%, user satisfaction +92%.
+• Designed RAG ingestion & retrieval: ~90% faster retrieval, accuracy ~85%.
+• Observability dashboards & cost optimization: failures -91%, token cost/query -90%, infra cost -83%.
+• Tech: Python, LangChain, Azure AI Foundry, FAISS/Qdrant, FastAPI/Flask, Docker, GitHub Actions, KQL.
+ • Built multi-agent Response AI: reduced query resolution time ~95%, user satisfaction +92%.
+ • Designed RAG ingestion & retrieval: ~90% faster retrieval, accuracy ~85%.
+ • Observability dashboards & cost optimization: failures -91%, token cost/query -90%, infra cost -83%.
+ • Tech: Python, LangChain, Azure AI Foundry, FAISS/Qdrant, FastAPI/Flask, Docker, GitHub Actions, KQL.
+
+Selected Projects:
+- Response AI — Agentic Escalation Analysis
+• Automates entity extraction, KQL generation, log analysis, and context-aware responses.
+• Stack: Python, LangChain, Azure AI Foundry, RAG, Docker, CI/CD.
+ • Automates entity extraction, KQL generation, log analysis, and context-aware responses.
+ • Stack: Python, LangChain, Azure AI Foundry, RAG, Docker, CI/CD.
+- KQL Auto-Query Agent
+• Natural language → executable KQL queries, safe execution with guardrails.
+• Stack: LangChain, KQL, Vector DBs, Flask.
+ • Natural language → executable KQL queries, safe execution with guardrails.
+ • Stack: LangChain, KQL, Vector DBs, Flask.
+- Low-Latency RAG @ Scale
+• 1000 QPS design with vector cache, ANN, chunking strategy, query planner, speculative fetch.
+• Stack: FAISS/Qdrant, FastAPI, Redis.
+ • 1000 QPS design with vector cache, ANN, chunking strategy, query planner, speculative fetch.
+ • Stack: FAISS/Qdrant, FastAPI, Redis.
+- Agentic Learning Assistant (POC)
+• Planner–Critic–Tooling loop for interactive learning and quizzes.
+ • Planner–Critic–Tooling loop for interactive learning and quizzes.
+
+Skills:
+- LLMs, Prompting, RAG, Agentic orchestration, Observability, CI/CD.
+- Python, PyTorch, HuggingFace, LangChain, Azure AI, GCP Vertex, FAISS, Qdrant, Chroma, FastAPI, Flask, Docker, Kubernetes, GitHub Actions.
+
+Education:
+- B.Sc. Computer Science — Adikavi Nannayya University (2023)
+
+Awards:
+- Super Crew Award @ LTIMindtree · 4-Star Appraisal Performer · Hackathon winner · Top 1% HackerRank.
+`;
+
+const SYSTEM_PROMPT = `
+You are an AI assistant embedded in Satya's portfolio. Use ONLY the information in the RESUME CONTEXT below.
+If a question is outside that context or not clearly supported (other than greetings and all), reply: "This information is not available in the resume."
+Keep answers concise and specific. Include bullet points when helpful.
+
+----- RESUME CONTEXT START -----
+${RESUME_CONTEXT}
+----- RESUME CONTEXT END -----
+`;
+
+// DOM refs for AI widget
+const $fab = document.getElementById('aiFab');
+const $panel = document.getElementById('aiPanel');
+const $close = document.getElementById('aiClose');
+const $body = document.getElementById('aiBody');
+const $input = document.getElementById('aiText');
+const $send = document.getElementById('aiSend');
+
+// Portfolio misc
+const RESUME_URL = "https://drive.usercontent.google.com/download?id=1N9SC-cyHicZQe-9xohpLRCT6hL4XK2W1&export=download&authuser=1&confirm=t&uuid=e6be391f-8133-43f9-b505-dabab6d90fba&at=ALWLOp7dJfa61KFhaIn_nAfF2ZK7:1762661039899";
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('downloadBtn')?.addEventListener('click', triggerDownload);
+window.addEventListener('load', () => {
+if(!sessionStorage.getItem('resumeDownloaded')){
+setTimeout(triggerDownload, 700);
+sessionStorage.setItem('resumeDownloaded','1');
+}
+});
+function triggerDownload(){
+const a = document.createElement('a');
+a.href = RESUME_URL;
+a.download = "Akella-Sri-Satya-Vijay-Resume.pdf";
+document.body.appendChild(a);
+a.click();
+a.remove();
+}
+
+// Subtle parallax background
+(function(){
+const l1 = document.getElementById('bg1');
+const l2 = document.getElementById('bg2');
+let w = window.innerWidth, h = window.innerHeight;
+window.addEventListener('resize', ()=>{ w = innerWidth; h = innerHeight; });
+const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+window.addEventListener('mousemove', (e)=>{
+const x = (e.clientX / w - 0.5);
+const y = (e.clientY / h - 0.5);
+l1.style.transform = `translate(${clamp(-30*x, -30, 30)}px, ${clamp(-24*y, -24, 24)}px)`;
+l2.style.transform = `translate(${clamp(24*x, -24, 24)}px, ${clamp(18*y, -18, 18)}px)`;
+});
+})();
+
+// Tilt effect
+(function(){
+const supportsHover = window.matchMedia('(hover: hover)').matches;
+if(!supportsHover) return;
+const els = document.querySelectorAll('[data-tilt]');
+const maxTilt = 10;
+els.forEach(el => {
+el.style.transformStyle = 'preserve-3d';
+el.addEventListener('mouseenter', ()=> el.classList.add('hovered'));
+el.addEventListener('mouseleave', ()=>{ el.style.transform=''; el.classList.remove('hovered'); });
+el.addEventListener('mousemove', (e)=>{
+const rect = el.getBoundingClientRect();
+const px = (e.clientX - rect.left) / rect.width;
+const py = (e.clientY - rect.top) / rect.height;
+const rx = (0.5 - py) * (maxTilt*2);
+const ry = (px - 0.5) * (maxTilt*2);
+el.style.transform = `perspective(1000px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateZ(0)`;
+el.style.boxShadow = `0 18px 50px rgba(2,6,23,.45)`;
+});
+});
+})();
+
+// KPI animation
+(function(){
+const kpis = document.querySelectorAll('.kpi');
+const io = new IntersectionObserver((entries)=>{
+entries.forEach(entry => {
+if(!entry.isIntersecting) return;
+const el = entry.target;
+const target = parseInt(el.dataset.target || '0', 10);
+const bar = el.querySelector('.bar');
+const num = el.querySelector('.num');
+const circumference = 2 * Math.PI * 50; // r=50
+let start = null;
+function step(ts){
+if(!start) start = ts;
+const p = Math.min(1, (ts - start) / 1200);
+const val = Math.floor(target * p);
+bar.style.strokeDashoffset = (circumference * (1 - val/100)).toFixed(2);
+num.textContent = val + '%';
+if(p < 1) requestAnimationFrame(step);
+}
+bar.style.strokeDasharray = circumference;
+bar.style.strokeDashoffset = circumference;
+requestAnimationFrame(step);
+io.unobserve(el);
+});
+}, {threshold: 0.35});
+kpis.forEach(k => io.observe(k));
+})();
+
+// ===== AI Widget =====
+const aiClient = new GoogleGenerativeAI(GEMINI_API_KEY);
+const aiModel = aiClient.getGenerativeModel({ model: GEMINI_MODEL });
+
+function addMsg(text, who='bot'){
+const div = document.createElement('div');
+div.className = 'ai-msg ' + (who === 'user' ? 'ai-user' : 'ai-bot');
+div.textContent = text;
+$body.appendChild(div);
+$body.scrollTop = $body.scrollHeight;
+}
+
+$fab.addEventListener('click', () => { $panel.style.display = 'flex'; $input.focus(); });
+$close.addEventListener('click', () => { $panel.style.display = 'none'; });
+$send.addEventListener('click', onSend);
+$input.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ onSend(); }});
+
+async function onSend(){
+const q = ($input.value || '').trim();
+if(!q) return;
+addMsg(q, 'user');
+$input.value='';
+addMsg('Typing…', 'bot');
+try{
+const answer = await askGemini(q);
+const last = $body.querySelector('.ai-msg.ai-bot:last-child');
+if(last) last.textContent = answer || 'Sorry, I could not generate a response.';
+}catch(err){
+const last = $body.querySelector('.ai-msg.ai-bot:last-child');
+if(last) last.textContent = 'Error: ' + (err?.message || 'Something went wrong');
+}
+}
+function extractAnswer(data){
+// Standard response
+let direct = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+if (direct && direct.trim()) return direct.trim();
+
+// Some models return an array of parts
+let parts = data?.candidates?.[0]?.content?.parts;
+if (Array.isArray(parts)) {
+let joined = parts.map(p => p.text || "").join("").trim();
+if (joined) return joined;
+}
+
+// Fallback: some responses use 'outputText' or 'output_text'
+let alt = data?.output_text || data?.outputText;
+if (alt && alt.trim()) return alt.trim();
+
+return null; // means truly empty
+}
+
+async function askGemini(userText){
+const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${"AIzaSyBckPuJalEtUI_dkHfN0DsJeKFaJsR0nAY"}`;
+
+const payload = {
+contents: [
+{
+role: "user",
+parts:  [
+{
+text: `
+${SYSTEM_PROMPT}
+
+----- RESUME CONTEXT -----
+${RESUME_CONTEXT}
+----- END CONTEXT -----
+
+User question: ${userText}
+
+You MUST answer only using the resume context above.
+      `
+       `
+}
+]
+
+}
+]
+};
+
+const res = await fetch(url, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify(payload)
+});
+
+const data = await res.json();
+const answer = extractAnswer(data);
+
+return answer || "⚠️ The model responded, but did not return text. Try rephrasing your question.";
+}
+
+
+
+</script>
 </body>
 </html>
