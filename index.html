@@ -891,22 +891,21 @@ if(last) last.textContent = 'Error: ' + (err?.message || 'Something went wrong')
 }
 }
 function extractAnswer(data){
-// Standard response
-let direct = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-if (direct && direct.trim()) return direct.trim();
+  const parts = data?.candidates?.[0]?.content?.parts;
+  if (Array.isArray(parts)) {
+    // Filter out thinking/thought parts — specific to gemini-2.5-flash
+    const textParts = parts
+      .filter(p => !p.thought)
+      .map(p => p.text || "")
+      .join("")
+      .trim();
+    if (textParts) return textParts;
 
-// Some models return an array of parts
-let parts = data?.candidates?.[0]?.content?.parts;
-if (Array.isArray(parts)) {
-let joined = parts.map(p => p.text || "").join("").trim();
-if (joined) return joined;
-}
-
-// Fallback: some responses use 'outputText' or 'output_text'
-let alt = data?.output_text || data?.outputText;
-if (alt && alt.trim()) return alt.trim();
-
-return null; // means truly empty
+    // Fallback: join all parts regardless
+    const all = parts.map(p => p.text || "").join("").trim();
+    if (all) return all;
+  }
+  return null;
 }
 
 async function askGemini(userText){
