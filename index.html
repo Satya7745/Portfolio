@@ -944,7 +944,7 @@ body: JSON.stringify(payload)
 const data = await res.json();
 const answer = extractAnswer(data);
 
-return answer || "⚠️ The model responded, but did not return text. Try rephrasing your question.";
+return answer || "The AI took a short break. Please try again in a moment.";
 }
 
 
