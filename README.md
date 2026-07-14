@@ -1,25 +1,28 @@
-# Akella Satya Vijay — Portfolio
+# Akella Satya Vijay - Portfolio
 
 A hand-built, single-page portfolio for a **Forward Deployed AI Engineer**.
-No frameworks, no templates — just HTML, CSS, and vanilla JavaScript.
+No frameworks or templates: HTML, CSS, and vanilla JavaScript.
 
 **Live:** _add your GitHub Pages URL here_
 
 ## Highlights
 
-- Animated particle constellation + aurora background (canvas + CSS)
-- Custom cursor, 3D tilt cards, spotlight hover, magnetic buttons
-- Scroll-reveal animations, animated impact counters, typing role rotator
+- Recruiter-first narrative for Microsoft client work, production AI systems, and measurable impact
+- Full-color local portrait with animated system orbits, scan treatment, and pointer depth
+- Kinetic hero typography, rotating engineering-focus copy, moving credential rail, and impact counters
+- Seven concise case studies with smooth, on-demand architecture details
+- Warm charcoal, ivory, rose, and amber palette with no visible blue treatment
 - Fully responsive, accessible, and `prefers-reduced-motion` aware
-- Zero dependencies (only Google Fonts)
+- Zero runtime dependencies and no external font requests
 
 ## Structure
 
 ```
 portfolio/
-├── index.html   # markup + content
-├── styles.css   # theme, layout, animations
-├── script.js    # cursor, particles, reveals, counters, tilt
+├── index.html          # semantic content and case studies
+├── styles.css          # responsive theme, layout, and motion
+├── script.js           # reveals, counters, role loop, accordions, and parallax
+├── profile-color.jpg   # locally hosted color portrait
 └── README.md
 ```
 
@@ -40,9 +43,10 @@ Or open `index.html` directly, or use the VS Code Live Server extension.
 
 ## Customize
 
-- Colors live in the `:root` block of `styles.css` (`--accent`, `--accent-2`, `--grad`).
-- Content is all in `index.html` — edit the section markup directly.
-- Motion settings (particle count, tilt strength) are near the top of the relevant blocks in `script.js`.
+- Theme variables are at the beginning of `styles.css`.
+- Portfolio copy and case studies live in `index.html`.
+- Role-loop text and interaction timing live in `script.js`.
+- The portfolio supports `?scoutTheme=light` and `?scoutTheme=dark` for deterministic previews.
 
 ---
 Built with intent by Akella Satya Vijay.
