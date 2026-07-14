@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Akella Satya Vijay — Forward Deployed AI Engineer. Agentic AI, LLM systems, and MCP tooling built to survive production." />
+  <meta name="author" content="Akella Satya Vijay" />
+  <meta property="og:title" content="Akella Satya Vijay — Forward Deployed AI Engineer" />
+  <meta property="og:description" content="I build agentic AI and LLM systems that hold up in production. Multi-agent orchestration, RAG, MCP, and fine-tuning." />
+  <meta property="og:type" content="website" />
+  <title>Akella Satya Vijay — Forward Deployed AI Engineer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%236d5efc'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%23070810'/%3E%3Ctext x='50' y='68' font-family='Arial' font-size='52' font-weight='bold' text-anchor='middle' fill='url(%23g)'%3ESV%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Scroll progress -->
+  <div class="scroll-progress"><span id="scrollBar"></span></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- Background layers -->
+  <div class="bg-aurora" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+  </div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav-logo" data-magnetic>
+      <span class="logo-mark">SV</span>
+      <span class="logo-text">Satya Vijay</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#impact">Impact</a>
+      <a href="#experience">Experience</a>
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a href="#contact" class="btn btn-ghost nav-cta" data-magnetic>Let's talk <span aria-hidden="true">&#8594;</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="hero-inner">
+        <p class="hero-eyebrow reveal"><span class="pulse-dot"></span> Available for senior / lead AI roles</p>
+        <h1 class="hero-name reveal">
+          <span class="grad-text">Akella Satya Vijay</span>
+        </h1>
+        <h2 class="hero-role reveal">
+          <span class="role-static">I'm a</span>
+          <span class="role-rotator" id="roleRotator"><span class="role-word">Forward Deployed AI Engineer</span></span>
+          <span class="role-caret" aria-hidden="true">|</span>
+        </h2>
+        <p class="hero-lede reveal">
+          I embed with teams and build agentic AI and LLM systems that survive production —
+          multi-agent orchestration, RAG, MCP tooling, and the governance layer that makes it all trustworthy.
+        </p>
+        <div class="hero-actions reveal">
+          <a href="#work" class="btn btn-primary" data-magnetic>View my work <span aria-hidden="true">&#8594;</span></a>
+          <a href="#contact" class="btn btn-glass" data-magnetic>Get in touch</a>
+        </div>
+        <div class="hero-badges reveal" aria-label="Highlights">
+          <span class="chip">@ LTM · AI 1000 program</span>
+          <span class="chip">Microsoft Defender for Office 365</span>
+          <span class="chip">Google Pro ML Engineer</span>
+        </div>
+      </div>
+      <a href="#about" class="scroll-cue" aria-label="Scroll to about">
+        <span class="mouse"></span>
+        <span class="scroll-text">Scroll</span>
+      </a>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+      <div class="section-head reveal">
+        <span class="section-kicker">01 — About</span>
+        <h2 class="section-title">The engineer behind the systems</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-copy reveal">
+          <p class="about-lead">
+            The hard part is never the demo. It's making a probabilistic system reliable enough
+            to trust with real decisions — and that's the part I own.
+          </p>
+          <p>
+            I'm a Forward Deployed AI Engineer at LTM, part of the AI 1000 program. I don't build AI from a
+            distance: I sit with the team, learn their real problems, and ship systems inside their environment.
+            Over 2.5+ years I've grown from ML Engineer to leading GenAI work — agentic systems, RAG, and model
+            governance on Azure AI Foundry and GCP.
+          </p>
+          <p>
+            Lately my days are agent design, LLM fine-tuning (SFT / DPO), and the unglamorous MLOps that keeps
+            things honest: evaluation harnesses, drift monitoring, token-cost and latency observability. I also
+            write about LLM alignment and agent design, and mentor engineers moving into GenAI.
+          </p>
+          <div class="about-tags">
+            <span>Agentic AI</span><span>LLMs &amp; RAG</span><span>Model Context Protocol</span>
+            <span>Fine-tuning (SFT/DPO)</span><span>MLOps &amp; Governance</span>
+          </div>
+        </div>
+        <aside class="about-card reveal" data-tilt>
+          <div class="about-card-inner">
+            <div class="ac-row"><span class="ac-label">Role</span><span class="ac-value">Forward Deployed AI Engineer</span></div>
+            <div class="ac-row"><span class="ac-label">Company</span><span class="ac-value">LTM (ex-LTIMindtree)</span></div>
+            <div class="ac-row"><span class="ac-label">Based in</span><span class="ac-value">Hyderabad, India</span></div>
+            <div class="ac-row"><span class="ac-label">Focus</span><span class="ac-value">Security response AI</span></div>
+            <div class="ac-row"><span class="ac-label">Education</span><span class="ac-value">M.Sc. DS &amp; AI, BITS Pilani</span></div>
+            <div class="ac-row"><span class="ac-label">Certified</span><span class="ac-value">24× · Google · Anthropic</span></div>
+            <a href="#contact" class="ac-cta" data-magnetic>Work with me <span aria-hidden="true">&#8594;</span></a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- IMPACT / STATS -->
+    <section class="section impact" id="impact">
+      <div class="section-head reveal">
+        <span class="section-kicker">02 — Impact</span>
+        <h2 class="section-title">Numbers that made people look twice</h2>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-card reveal" data-tilt>
+          <span class="stat-num"><span class="counter" data-target="2.5" data-decimals="1">0</span>+</span>
+          <span class="stat-label">Years building production AI</span>
+        </div>
+        <div class="stat-card reveal" data-tilt>
+          <span class="stat-num"><span class="counter" data-target="6">0</span></span>
+          <span class="stat-label">Solutions shipped in the MDO suite</span>
+        </div>
+        <div class="stat-card reveal" data-tilt>
+          <span class="stat-num"><span class="counter" data-target="90">0</span>+</span>
+          <span class="stat-label">Governed agent tools integrated</span>
+        </div>
+        <div class="stat-card reveal" data-tilt>
+          <span class="stat-num"><span class="counter" data-target="60">0</span>%</span>
+          <span class="stat-label">Manual triage effort removed</span>
+        </div>
+      </div>
+      <p class="impact-note reveal">
+        One flagship result: an investigation that took an analyst <strong>~45 minutes</strong> now runs
+        end-to-end in <strong>~5</strong> — freeing engineers to make decisions instead of gathering data.
+      </p>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="section-head reveal">
+        <span class="section-kicker">03 — Experience</span>
+        <h2 class="section-title">A steady climb, on purpose</h2>
+      </div>
+      <div class="timeline">
+        <article class="tl-item reveal">
+          <div class="tl-marker"></div>
+          <div class="tl-body" data-tilt>
+            <span class="tl-date">Dec 2025 — Present</span>
+            <h3 class="tl-role">Forward Deployed AI Engineer</h3>
+            <span class="tl-org">LTM · AI 1000 program</span>
+            <p>Set the architecture for our agentic AI systems and own what decides whether AI ships:
+              model quality, governance, and reliability. Lead validation for sensitive-data detection and
+              mentor engineers.</p>
+          </div>
+        </article>
+        <article class="tl-item reveal">
+          <div class="tl-marker"></div>
+          <div class="tl-body" data-tilt>
+            <span class="tl-date">Feb 2025 — Dec 2025</span>
+            <h3 class="tl-role">AIML Engineer</h3>
+            <span class="tl-org">LTM</span>
+            <p>Moved from building models to productionizing whole GenAI systems — multi-agent orchestration,
+              RAG pipelines, and agentic workflows with LangChain, AutoGen, and Copilot Studio.</p>
+          </div>
+        </article>
+        <article class="tl-item reveal">
+          <div class="tl-marker"></div>
+          <div class="tl-body" data-tilt>
+            <span class="tl-date">Sep 2023 — Feb 2025</span>
+            <h3 class="tl-role">Machine Learning Engineer</h3>
+            <span class="tl-org">LTM</span>
+            <p>Built cloud-native AI automation on Azure AI Foundry. Led an automated email threat-triage
+              system (GPT-4o + AutoGen) with entity extraction, auto KQL, and secure multi-agent coordination.</p>
+          </div>
+        </article>
+        <article class="tl-item reveal">
+          <div class="tl-marker"></div>
+          <div class="tl-body" data-tilt>
+            <span class="tl-date">2022 — 2023</span>
+            <h3 class="tl-role">Cloud · Python · RPA · Salesforce Internships</h3>
+            <span class="tl-org">Softtech · Technical Hub · Blue Prism · Salesforce</span>
+            <p>Foundations across AWS, automation, and full-stack — plus mentoring 300+ students and a Top 1%
+              HackerRank run along the way.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- WORK / PROJECTS -->
+    <section class="section" id="work">
+      <div class="section-head reveal">
+        <span class="section-kicker">04 — Selected work</span>
+        <h2 class="section-title">AI systems for security response</h2>
+        <p class="section-sub">A suite of multi-agent systems and governed MCP tooling across the security
+          response lifecycle — for Microsoft Defender for Office 365. Descriptions kept high-level by design.</p>
+      </div>
+      <div class="work-grid">
+        <article class="project-card featured reveal" data-tilt data-spotlight>
+          <div class="pc-top">
+            <span class="pc-index">01</span>
+            <span class="pc-tag">Flagship · Multi-agent</span>
+          </div>
+          <h3 class="pc-title">RADARAssist</h3>
+          <p class="pc-desc">An AI escalation-triage and investigation assistant for MDO email security. A dynamic
+            orchestrator invokes only the agents an escalation needs — entity extraction, KQL over telemetry,
+            mailflow analysis, and a customer-ready response draft. Same investigation an analyst does in ~an hour,
+            done in seconds.</p>
+          <ul class="pc-stack"><li>Multi-agent</li><li>Orchestration</li><li>RAG</li><li>Azure AI Foundry</li></ul>
+        </article>
+
+        <article class="project-card reveal" data-tilt data-spotlight>
+          <div class="pc-top"><span class="pc-index">02</span><span class="pc-tag">MCP server · ~28 tools</span></div>
+          <h3 class="pc-title">Escalation Intelligence MCP</h3>
+          <p class="pc-desc">A Model Context Protocol server suite that turns the analyst workbench into agent-ready
+            tooling — escalation context, tenant history, similar-case mining, mitigation suggestions, and grounded
+            KQL, all behind one governed interface.</p>
+          <ul class="pc-stack"><li>MCP</li><li>Kusto / KQL</li><li>Python</li></ul>
+        </article>
+
+        <article class="project-card reveal" data-tilt data-spotlight>
+          <div class="pc-top"><span class="pc-index">03</span><span class="pc-tag">NL → KQL</span></div>
+          <h3 class="pc-title">Natural-Language-to-KQL Agent</h3>
+          <p class="pc-desc">Ask in plain English; the agent understands the schema, writes the KQL, runs it, and
+            returns the answer. Grounded on schema metadata and curated patterns so it holds up on joins, nested
+            filters, and time-series.</p>
+          <ul class="pc-stack"><li>NL-to-KQL</li><li>ADX</li><li>RAG</li><li>Prompt Eng.</li></ul>
+        </article>
+
+        <article class="project-card reveal" data-tilt data-spotlight>
+          <div class="pc-top"><span class="pc-index">04</span><span class="pc-tag">Governed · Low-code</span></div>
+          <h3 class="pc-title">SecRes Agent Studio</h3>
+          <p class="pc-desc">A governed, low-code platform to build and operate specialized investigation agents —
+            approved knowledge, controlled abilities, managed identity, human approval gates, and full audit traces.
+            A digital workforce for security ops.</p>
+          <ul class="pc-stack"><li>Agentic AI</li><li>Governance</li><li>Managed Identity</li></ul>
+        </article>
+
+        <article class="project-card reveal" data-tilt data-spotlight>
+          <div class="pc-top"><span class="pc-index">05</span><span class="pc-tag">MCP server · ~37 tools</span></div>
+          <h3 class="pc-title">Incident Management MCP</h3>
+          <p class="pc-desc">A stateless, streamable MCP server over an incident-management platform — AI summaries,
+            similar-incident lookup, impact analysis, on-call discovery, and governed lifecycle actions gated by
+            human-in-the-loop confirmation.</p>
+          <ul class="pc-stack"><li>MCP</li><li>Human-in-the-loop</li><li>APIs</li></ul>
+        </article>
+
+        <article class="project-card reveal" data-tilt data-spotlight>
+          <div class="pc-top"><span class="pc-index">06</span><span class="pc-tag">Read-only · Least-privilege</span></div>
+          <h3 class="pc-title">DevOps Investigation Agent</h3>
+          <p class="pc-desc">A strictly read-only Azure DevOps interface for investigations — wikis and runbooks,
+            work-item triage, code and git history, and build correlation. Every mutating capability is disabled by
+            design. No writes, ever.</p>
+          <ul class="pc-stack"><li>Azure DevOps</li><li>MCP</li><li>Federated Identity</li></ul>
+        </article>
+
+        <article class="project-card reveal" data-tilt data-spotlight>
+          <div class="pc-top"><span class="pc-index">07</span><span class="pc-tag">Performance</span></div>
+          <h3 class="pc-title">Low-Latency RAG at Scale</h3>
+          <p class="pc-desc">A retrieval design targeting ~1000 QPS: ANN indexing, a vector cache, chunking strategy,
+            a query planner, and speculative fetch — because latency budgets matter as much as accuracy once
+            something is live.</p>
+          <ul class="pc-stack"><li>FAISS</li><li>Qdrant</li><li>FastAPI</li><li>Redis</li></ul>
+        </article>
+
+        <article class="project-card reveal" data-tilt data-spotlight>
+          <div class="pc-top"><span class="pc-index">08</span><span class="pc-tag">Governance · Evals</span></div>
+          <h3 class="pc-title">AI-vs-Human Validation (DLP)</h3>
+          <p class="pc-desc">A framework that benchmarks agent-driven sensitive-data detection against human
+            ground truth — normalization for messy JSON, confidence calibration, and drift checks — to keep
+            detection accurate and audit-ready.</p>
+          <ul class="pc-stack"><li>Evaluation</li><li>Governance</li><li>Python</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="section-head reveal">
+        <span class="section-kicker">05 — Skills</span>
+        <h2 class="section-title">The toolkit</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-col reveal" data-tilt>
+          <h3>GenAI &amp; Agents</h3>
+          <ul><li>Agentic AI</li><li>Multi-Agent Systems</li><li>LLMs &amp; RAG</li><li>Model Context Protocol (MCP)</li><li>Fine-tuning (SFT / DPO)</li><li>Prompt Engineering</li></ul>
+        </div>
+        <div class="skill-col reveal" data-tilt>
+          <h3>ML &amp; Data</h3>
+          <ul><li>PyTorch</li><li>HuggingFace Transformers</li><li>NLP &amp; Classification</li><li>Vector DBs (FAISS/Qdrant/Chroma)</li><li>KQL / Azure Data Explorer</li><li>Python</li></ul>
+        </div>
+        <div class="skill-col reveal" data-tilt>
+          <h3>Platform &amp; Ops</h3>
+          <ul><li>Azure OpenAI (GPT-4o)</li><li>Azure AI Foundry</li><li>GCP Vertex AI</li><li>Docker &amp; Kubernetes</li><li>CI/CD &amp; MLOps</li><li>Observability &amp; Governance</li></ul>
+        </div>
+      </div>
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Python</span><span>PyTorch</span><span>LangChain</span><span>AutoGen</span><span>Azure OpenAI</span><span>Azure AI Foundry</span><span>Vertex AI</span><span>MCP</span><span>FAISS</span><span>Qdrant</span><span>KQL</span><span>Docker</span><span>Kubernetes</span><span>FastAPI</span><span>RAG</span><span>SFT / DPO</span>
+          <span>Python</span><span>PyTorch</span><span>LangChain</span><span>AutoGen</span><span>Azure OpenAI</span><span>Azure AI Foundry</span><span>Vertex AI</span><span>MCP</span><span>FAISS</span><span>Qdrant</span><span>KQL</span><span>Docker</span><span>Kubernetes</span><span>FastAPI</span><span>RAG</span><span>SFT / DPO</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section class="section" id="certs">
+      <div class="section-head reveal">
+        <span class="section-kicker">06 — Credentials</span>
+        <h2 class="section-title">24× certified, and counting</h2>
+      </div>
+      <div class="cert-grid">
+        <div class="cert-card reveal" data-tilt><span class="cert-issuer">Google Cloud</span><h3>Professional ML Engineer</h3><span class="cert-year">2025</span></div>
+        <div class="cert-card reveal" data-tilt><span class="cert-issuer">Google</span><h3>Generative AI Leader</h3><span class="cert-year">2025</span></div>
+        <div class="cert-card reveal" data-tilt><span class="cert-issuer">Anthropic</span><h3>Claude Certified Architect — Foundations</h3><span class="cert-year">2026</span></div>
+        <div class="cert-card reveal" data-tilt><span class="cert-issuer">Stanford · Coursera</span><h3>Advanced Learning Algorithms</h3><span class="cert-year">2025</span></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact">
+      <div class="contact-inner reveal" data-tilt>
+        <span class="section-kicker">07 — Contact</span>
+        <h2 class="contact-title">Let's build something that <span class="grad-text">actually ships</span>.</h2>
+        <p class="contact-sub">Open to senior and lead AI roles where I own the full lifecycle — architecture,
+          fine-tuning, governance, and the agent systems clients depend on.</p>
+        <div class="contact-actions">
+          <a href="mailto:akellasrisatyavijay2@gmail.com" class="btn btn-primary" data-magnetic>Email me <span aria-hidden="true">&#8594;</span></a>
+          <a href="tel:+919391520600" class="btn btn-glass" data-magnetic>+91 93915 20600</a>
+        </div>
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/satyavijay/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/Satya7745" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://leetcode.com/u/SatyaVijayAkella/" target="_blank" rel="noopener">LeetCode</a>
+          <a href="https://medium.com/@akellasrisatyavijay" target="_blank" rel="noopener">Medium</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year">2026</span> Akella Satya Vijay</span>
+    <span class="footer-note">Built from scratch — no templates.</span>
+    <a href="#top" class="footer-top" data-magnetic>Back to top &#8593;</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
