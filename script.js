@@ -5,7 +5,7 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (selector, context = document) => context.querySelector(selector);
   const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
-  window.__SATYA_PORTFOLIO_BUILD__ = "20260715.9";
+  window.__SATYA_PORTFOLIO_BUILD__ = "20260715.11";
   document.body.classList.add("ready");
 
   const header = $("#siteHeader");
@@ -32,6 +32,7 @@
   if (themeToggle) {
     themeToggle.addEventListener("click", () => {
       root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+      try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
     });
   }
 
