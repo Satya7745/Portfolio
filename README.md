@@ -3,15 +3,15 @@
 A hand-built, single-page portfolio for a **Forward Deployed AI Engineer**.
 No frameworks or templates: HTML, CSS, and vanilla JavaScript.
 
-**Live:** _add your GitHub Pages URL here_
+**Live:** https://satya7745.github.io/Portfolio/
 
 ## Highlights
 
 - Recruiter-first narrative for Microsoft client work, production AI systems, and measurable impact
-- Full-color local portrait with animated system orbits, scan treatment, and pointer depth
-- Kinetic hero typography, rotating engineering-focus copy, moving credential rail, and impact counters
-- Seven concise case studies with smooth, on-demand architecture details
-- Warm charcoal, ivory, rose, and amber palette with no visible blue treatment
+- Security-casebook layout with a focused Microsoft security narrative and full-color portrait
+- Pure-CSS rotating engineering-focus headline, scroll reveals, and impact counters
+- Seven concrete technical case studies with on-demand architecture details
+- High-contrast production-impact and contact chapters
 - Fully responsive, accessible, and `prefers-reduced-motion` aware
 - Zero runtime dependencies and no external font requests
 - Closed-domain portfolio agent that works directly on GitHub Pages from a bundled, verified knowledge base
@@ -22,8 +22,10 @@ No frameworks or templates: HTML, CSS, and vanilla JavaScript.
 portfolio/
 ├── index.html          # semantic content and case studies
 ├── styles.css          # responsive theme, layout, and motion
-├── script.js           # reveals, counters, role loop, accordions, and parallax
+├── script.js           # reveals, counters, accordions, agent UI, and backend bridge
+├── agent-knowledge.js  # approved portfolio facts and closed-domain policy
 ├── profile-color.jpg   # locally hosted color portrait
+├── google-apps-script/ # no-package Gemini proxy source
 └── README.md
 ```
 
@@ -46,10 +48,19 @@ The included `.nojekyll` file keeps GitHub Pages in plain static-file mode. All 
 
 ## Portfolio Agent
 
-The bottom-right agent has two modes:
+The bottom-right agent has two protected modes:
 
-- **GitHub Pages:** Uses `agent-knowledge.js` locally. It answers only about Satya's approved professional information, makes no network requests, stores no conversation, and rejects unrelated questions, prompt injection, and secrets.
-- **Optional Gemini backend:** `api/chat.js` is a serverless proxy that reads `GEMINI_API_KEY` from a protected environment variable. This requires an external serverless host because GitHub Pages cannot safely hide API keys or execute server code.
+- **Gemini mode:** GitHub Pages calls the deployed Google Apps Script web app using JSONP. Apps Script reads `GEMINI_API_KEY` from Script Properties, retrieves only approved facts, calls Gemini, validates cited fact IDs, and returns a sanitized answer.
+- **Verified fallback:** If Gemini or the backend is unavailable, `agent-knowledge.js` answers from the same approved facts without browsing or external calls.
+
+Both layers reject unrelated questions, prompt injection, secret-bearing messages, and unsupported claims. The browser keeps no persistent conversation history.
+
+### Apps Script deployment
+
+1. Copy `google-apps-script/Code.gs` into an Apps Script project.
+2. Add `GEMINI_API_KEY` under **Project settings → Script properties**.
+3. Deploy as **Web app**, execute as the owner, and set access to **Anyone**.
+4. Put the `/exec` URL in the `data-endpoint` attribute on `#portfolioAgent`.
 
 Never put a Gemini API key in `index.html`, `script.js`, or any committed config file. The `.gitignore` excludes local environment files.
 
@@ -57,7 +68,7 @@ Never put a Gemini API key in `index.html`, `script.js`, or any committed config
 
 - Theme variables are at the beginning of `styles.css`.
 - Portfolio copy and case studies live in `index.html`.
-- Role-loop text and interaction timing live in `script.js`.
+- Headline-loop text and timing live in `index.html` and `styles.css`.
 - Portfolio-only facts and scope policy live in `agent-knowledge.js`.
 - The portfolio supports `?scoutTheme=light` and `?scoutTheme=dark` for deterministic previews.
 

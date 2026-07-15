@@ -17,7 +17,7 @@
       document.documentElement.setAttribute("data-theme", theme);
     })();
   </script>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20260715.3" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -65,7 +65,15 @@
         </p>
         <div class="role-loop" aria-live="polite">
           <span>Engineering now</span>
-          <strong id="roleCycle">agentic investigation systems</strong>
+          <strong id="roleCycle" class="role-cycle">
+            <span class="role-stack">
+              <span>agentic investigation systems</span>
+              <span>governed MCP tool surfaces</span>
+              <span>schema-grounded KQL agents</span>
+              <span>AI evaluation and risk workflows</span>
+              <span aria-hidden="true">agentic investigation systems</span>
+            </span>
+          </strong>
           <i aria-hidden="true"></i>
         </div>
         <div class="hero-actions">
@@ -105,7 +113,7 @@
       <div class="trust-track">
         <span>LTM AI 1000</span><i></i>
         <span>Microsoft client engagement</span><i></i>
-        <a href="https://bitspilani-digital.edu.in/msc-in-data-science-and-artificial-intelligence" target="_blank" rel="noopener noreferrer">BITS Pilani M.Sc. DS &amp; AI</a><i></i>
+        <span>BITS Pilani M.Sc. DS &amp; AI</span><i></i>
         <span>Google Professional ML Engineer</span><i></i>
         <span>Anthropic Claude Architect</span><i></i>
         <span aria-hidden="true">LTM AI 1000</span><i aria-hidden="true"></i>
@@ -135,7 +143,7 @@
           </p>
           <p>
             I progressed from Machine Learning Engineer to broader AI delivery ownership, and I am currently
-            pursuing an <a class="inline-link" href="https://bitspilani-digital.edu.in/msc-in-data-science-and-artificial-intelligence" target="_blank" rel="noopener noreferrer">M.Sc. in Data Science and Artificial Intelligence at BITS Pilani</a>.
+            pursuing an M.Sc. in Data Science and Artificial Intelligence at BITS Pilani.
             I also mentor engineers and write about practical LLM alignment and production reliability.
           </p>
         </div>
@@ -176,9 +184,9 @@
           </button>
           <div class="project-detail" hidden>
             <div class="project-story">
-              <div><span>Problem</span><p>Investigation context lived across escalation records, tenant history, telemetry, comments, and prior cases.</p></div>
-              <div><span>Build</span><p>A Model Context Protocol suite for aggregated context, similar-case mining, mitigation reuse, and controlled KQL access.</p></div>
-              <div><span>Value</span><p>Agents and Copilot hosts can retrieve consistent evidence through one governed interface instead of bespoke integrations.</p></div>
+              <div><span>What it connects</span><p>Analyst Workbench records, comments, analyst notes, tenant history, activity logs, related incidents, Sonar telemetry, and EOP evidence.</p></div>
+              <div><span>What I developed</span><p>28 MCP tools for complete escalation context, tenant statistics, similar-case retrieval, mitigation reuse, raw KQL, and schema-value discovery.</p></div>
+              <div><span>Production controls</span><p>Scoped bearer authentication for workbench data, managed identity for Kusto and incident systems, bounded responses, and auditable tool contracts.</p></div>
             </div>
             <div class="architecture-mini" aria-label="Escalation Intelligence MCP architecture">
               <span>Analyst workbench</span><i></i><strong>MCP gateway</strong><i></i><span>Tenant + Kusto + history</span>
@@ -196,9 +204,9 @@
           </button>
           <div class="project-detail" hidden>
             <div class="project-story">
-              <div><span>Problem</span><p>Analysts and operational teams needed telemetry insights without becoming KQL specialists.</p></div>
-              <div><span>Build</span><p>A schema-aware agent grounded on metadata, curated query patterns, value discovery, and controlled query execution.</p></div>
-              <div><span>Value</span><p>Reliable self-service analysis across joins, nested filters, aggregations, and time-series with the generated query retained for review.</p></div>
+              <div><span>Grounding</span><p>Database schema, table and column metadata, curated KQL examples, discovered categorical values, and expected result structures.</p></div>
+              <div><span>Execution path</span><p>Classifies the request, builds KQL, validates query shape, executes against Kusto, then returns the query, rows, table, and concise summary.</p></div>
+              <div><span>Coverage</span><p>Handles nested filters, joins, aggregations, top-N analysis, time windows, and time-series while retaining the generated KQL for analyst review.</p></div>
             </div>
             <div class="architecture-mini"><span>Plain English</span><i></i><strong>Schema-grounded planner</strong><i></i><span>Query + evidence</span></div>
             <div class="project-stack"><span>Azure OpenAI</span><span>Kusto</span><span>RAG</span><span>Python</span></div>
@@ -214,9 +222,9 @@
           </button>
           <div class="project-detail" hidden>
             <div class="project-story">
-              <div><span>Problem</span><p>Security teams needed reusable agents without losing control over knowledge, tools, identity, or high-impact actions.</p></div>
-              <div><span>Build</span><p>A role-based agent studio with approved knowledge, controlled abilities, model configuration, peer handoffs, and context optimization.</p></div>
-              <div><span>Value</span><p>Managed identity, approval gates, audit traces, and reusable specialist agents make low-code composition enterprise-ready.</p></div>
+              <div><span>Agent composition</span><p>Security engineers define each agent's role, responsibilities, approved abilities, knowledge sources, peer handoffs, model, and reasoning depth.</p></div>
+              <div><span>Runtime design</span><p>Foundry and custom-agent execution over Kusto, incident management, workbench data, security operations, SharePoint, and engineering guidance.</p></div>
+              <div><span>Governance</span><p>Managed identity, no standing secrets, human approval for consequential actions, complete traces, scoped tools, and context compression.</p></div>
             </div>
             <div class="architecture-mini"><span>Role + knowledge</span><i></i><strong>Governed runtime</strong><i></i><span>Approved tools</span></div>
             <div class="project-stack"><span>Azure AI Foundry</span><span>Entra ID</span><span>Agentic AI</span><span>Governance</span></div>
@@ -232,9 +240,9 @@
           </button>
           <div class="project-detail" hidden>
             <div class="project-story">
-              <div><span>Problem</span><p>Incident intelligence and lifecycle operations were difficult for agents to access safely through a consistent contract.</p></div>
-              <div><span>Build</span><p>A stateless streamable MCP interface for summaries, similar incidents, impact, contacts, teams, and on-call schedules.</p></div>
-              <div><span>Value</span><p>High-risk actions require explicit MCP elicitation before any state change, preserving human control by design.</p></div>
+              <div><span>Read capabilities</span><p>37 tools covering incident context, AI summaries, similar incidents, mitigation hints, discussion history, teams, contacts, and live on-call schedules.</p></div>
+              <div><span>Impact analysis</span><p>Correlates affected subscriptions, priority customers, services, regions, clouds, support requests, and high-priority events.</p></div>
+              <div><span>Controlled actions</span><p>Acknowledge, mitigate, resolve, transfer, change severity, reactivate, or request assistance only after explicit MCP elicitation confirmation.</p></div>
             </div>
             <div class="architecture-mini"><span>Incident APIs</span><i></i><strong>MCP + elicitation</strong><i></i><span>Agent with approval</span></div>
             <div class="project-stack"><span>MCP</span><span>REST APIs</span><span>Human in the loop</span><span>Managed identity</span></div>
@@ -250,9 +258,9 @@
           </button>
           <div class="project-detail" hidden>
             <div class="project-story">
-              <div><span>Problem</span><p>Investigators needed runbooks, known issues, code history, and deployment evidence spread across Azure DevOps.</p></div>
-              <div><span>Build</span><p>A strictly read-only interface over wikis, work items, repositories, commits, builds, logs, and artifacts.</p></div>
-              <div><span>Value</span><p>Least-privilege federation and zero write tools let agents correlate evidence without risking operational mutation.</p></div>
+              <div><span>Investigation surface</span><p>Searches team wikis and runbooks, checks related work items, reads repositories and Git history, and inspects pipeline runs, logs, and artifacts.</p></div>
+              <div><span>Correlation</span><p>Connects incident onset with recent commits, known bugs, deployment builds, and engineering guidance that may not be cloned locally.</p></div>
+              <div><span>Safety boundary</span><p>Every work-item, wiki, pull-request, and repository mutation is disabled; access uses a least-privilege managed-identity federation chain.</p></div>
             </div>
             <div class="architecture-mini"><span>Wikis + repos + builds</span><i></i><strong>Read-only agent</strong><i></i><span>Incident evidence</span></div>
             <div class="project-stack"><span>Azure DevOps</span><span>Federated identity</span><span>Git</span><span>Least privilege</span></div>
@@ -268,9 +276,9 @@
           </button>
           <div class="project-detail" hidden>
             <div class="project-story">
-              <div><span>Problem</span><p>AI detection outputs and human annotations varied across malformed JSON, spreadsheets, logs, and partial extractions.</p></div>
-              <div><span>Build</span><p>A robust normalization and comparison pipeline for sensitive-information presence, values, confidence, false positives, and false negatives.</p></div>
-              <div><span>Value</span><p>Structured reports expose model gaps and annotation inconsistencies, supporting audit-ready quality governance.</p></div>
+              <div><span>Evaluation scope</span><p>Benchmarks agent-detected Sensitive Information Types against human ground truth across identifiers, credentials, medical entities, and addresses.</p></div>
+              <div><span>Comparison engine</span><p>Normalizes malformed JSON, missing fields, empty values, partial extractions, spreadsheets, and logs before presence, value, and confidence comparison.</p></div>
+              <div><span>Quality output</span><p>Produces structured false-positive, false-negative, agreement, model-gap, and annotation-inconsistency reports for governance review.</p></div>
             </div>
             <div class="architecture-mini"><span>AI + human labels</span><i></i><strong>Evaluation engine</strong><i></i><span>Quality report</span></div>
             <div class="project-stack"><span>Python</span><span>Evaluation</span><span>DLP</span><span>Model governance</span></div>
@@ -286,9 +294,9 @@
           </button>
           <div class="project-detail" hidden>
             <div class="project-story">
-              <div><span>Problem</span><p>Investigators needed to interpret large volumes of activity signals without removing human judgment from consequential decisions.</p></div>
-              <div><span>Build</span><p>An AI-assisted workflow for signal correlation, contextual risk prioritization, and decision-ready evidence summaries.</p></div>
-              <div><span>Value</span><p>Analysts receive clearer context and prioritization while remaining in control of every investigation outcome.</p></div>
+              <div><span>Signal context</span><p>Brings together Microsoft 365 activity signals, policy context, case evidence, and historical patterns relevant to potential insider-risk events.</p></div>
+              <div><span>AI assistance</span><p>Correlates evidence, prioritizes risk, and creates concise investigation context without turning probabilistic output into an automatic decision.</p></div>
+              <div><span>Analyst control</span><p>Human investigators retain review and disposition authority; AI is used for triage, context assembly, and explainable prioritization.</p></div>
             </div>
             <div class="architecture-mini"><span>Enterprise signals</span><i></i><strong>Risk intelligence</strong><i></i><span>Analyst review</span></div>
             <div class="project-stack"><span>Machine learning</span><span>Risk analytics</span><span>Azure</span><span>Human in the loop</span></div>
@@ -343,7 +351,7 @@
       <div class="credentials-intro reveal">
         <span class="section-label">EDUCATION &amp; CREDENTIALS</span>
         <h2 id="credentialsTitle">Continuous learning, applied at production scale.</h2>
-        <p><a class="program-link" href="https://bitspilani-digital.edu.in/msc-in-data-science-and-artificial-intelligence" target="_blank" rel="noopener noreferrer">M.Sc. in Data Science and Artificial Intelligence at BITS Pilani</a>, pursued alongside full-time forward deployed engineering.</p>
+        <p>M.Sc. in Data Science and Artificial Intelligence at BITS Pilani, pursued alongside full-time forward deployed engineering.</p>
         <div class="credential-summary">
           <strong>8</strong><span>public verifications below</span>
           <strong>24</strong><span>credentials listed on LinkedIn</span>
@@ -388,19 +396,24 @@
     </section>
 
     <section class="contact-section" id="contact" aria-labelledby="contactTitle">
-      <div class="contact-copy reveal">
-        <span class="section-label">05 / CONTACT</span>
-        <h2 id="contactTitle">Have a real AI problem to solve?</h2>
-        <p>I'm open to senior and lead AI roles where I can own the path from architecture to adoption.</p>
+      <div class="contact-copy">
+        <span class="contact-status"><i aria-hidden="true"></i> Open to senior and lead AI opportunities</span>
+        <h2 id="contactTitle">Building AI that has to survive production?</h2>
+        <p>Let's talk about forward deployed engineering, agentic AI, Microsoft security, RAG, MCP platforms, or model governance.</p>
       </div>
-      <div class="contact-action reveal">
-        <a href="mailto:akellasrisatyavijay2@gmail.com">akellasrisatyavijay2@gmail.com <span aria-hidden="true">&#8594;</span></a>
-        <div><a href="https://www.linkedin.com/in/satyavijay/" target="_blank" rel="noopener noreferrer">LinkedIn</a><a href="https://github.com/Satya7745" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://medium.com/@akellasrisatyavijay" target="_blank" rel="noopener noreferrer">Medium</a></div>
+      <div class="contact-action">
+        <a class="contact-primary" href="mailto:akellasrisatyavijay2@gmail.com"><span>Email me</span><strong>akellasrisatyavijay2@gmail.com</strong><i aria-hidden="true">&#8594;</i></a>
+        <div class="contact-links">
+          <a href="https://www.linkedin.com/in/satyavijay/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><strong>Connect</strong></a>
+          <a href="tel:+919391520600"><span>Phone</span><strong>+91 93915 20600</strong></a>
+          <a href="https://github.com/Satya7745" target="_blank" rel="noopener noreferrer"><span>GitHub</span><strong>View code</strong></a>
+          <span class="contact-location"><span>Based in</span><strong>Hyderabad, India</strong></span>
+        </div>
       </div>
     </section>
   </main>
 
-  <aside class="portfolio-agent" id="portfolioAgent" data-endpoint="" aria-label="Satya's portfolio agent">
+  <aside class="portfolio-agent" id="portfolioAgent" data-endpoint="https://script.google.com/macros/s/AKfycbwDOqakzCdPVSySpDGTTPbEgKmux_6D37vxLeMxgyPa92SNhXWfWf4P6Oj5M6kBG4FnZQ/exec" aria-label="Satya's portfolio agent">
     <section class="agent-panel" id="agentPanel" aria-labelledby="agentTitle" hidden>
       <header class="agent-header">
         <div class="agent-identity">
@@ -445,7 +458,7 @@
     <a href="#top">Back to top &#8593;</a>
   </footer>
 
-  <script src="agent-knowledge.js"></script>
-  <script src="script.js"></script>
+  <script src="agent-knowledge.js?v=20260715.3"></script>
+  <script src="script.js?v=20260715.3"></script>
 </body>
 </html>

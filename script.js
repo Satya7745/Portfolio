@@ -5,6 +5,8 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (selector, context = document) => context.querySelector(selector);
   const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
+  window.__SATYA_PORTFOLIO_BUILD__ = "20260715.2";
+  document.body.classList.add("ready");
 
   const header = $("#siteHeader");
   const progress = $("#scrollProgress");
@@ -80,24 +82,6 @@
     });
   }, { threshold: 0.6 });
   counters.forEach(counter => counterObserver.observe(counter));
-
-  const roleCycle = $("#roleCycle");
-  if (roleCycle && !reduceMotion) {
-    const roles = [
-      "agentic investigation systems",
-      "governed MCP tool surfaces",
-      "schema-grounded KQL agents",
-      "AI evaluation and risk workflows"
-    ];
-    let roleIndex = 0;
-    window.setInterval(() => {
-      roleIndex = (roleIndex + 1) % roles.length;
-      roleCycle.classList.remove("changing");
-      void roleCycle.offsetWidth;
-      roleCycle.textContent = roles[roleIndex];
-      roleCycle.classList.add("changing");
-    }, 2800);
-  }
 
   const hero = $("#top");
   if (hero && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
@@ -219,12 +203,37 @@
   const agentKnowledge = window.SATYA_PORTFOLIO_AGENT;
   let agentBusy = false;
   let agentRequestCount = 0;
+  const agentClientId = (() => {
+    const bytes = new Uint32Array(3);
+    crypto.getRandomValues(bytes);
+    return Array.from(bytes, value => value.toString(36)).join("");
+  })();
 
   function agentEndpoint() {
     const configured = portfolioAgent?.dataset.endpoint?.trim();
     if (configured) return configured;
     if (location.hostname.endsWith(".vercel.app") || (location.hostname === "localhost" && location.port === "3000")) return "/api/chat";
     return "";
+  }
+
+  function requestJsonp(endpoint, message) {
+    return new Promise((resolve, reject) => {
+      const callback = `__satyaAgent_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
+      const script = document.createElement("script");
+      const timer = window.setTimeout(() => finish(new Error("Agent timeout")), 11000);
+      function finish(error, payload) {
+        window.clearTimeout(timer);
+        delete window[callback];
+        script.remove();
+        if (error) reject(error);
+        else resolve(payload);
+      }
+      window[callback] = payload => finish(null, payload);
+      script.onerror = () => finish(new Error("Agent endpoint unavailable"));
+      const query = new URLSearchParams({ callback, q: message, client: agentClientId });
+      script.src = `${endpoint}?${query.toString()}`;
+      document.head.append(script);
+    });
   }
 
   function setAgentOpen(open) {
@@ -257,13 +266,16 @@
     const endpoint = agentEndpoint();
     if (!endpoint) return { ...agentKnowledge.localAnswer(message), mode: "verified_local" };
     try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
-      });
-      if (!response.ok) throw new Error("Agent endpoint unavailable");
-      const payload = await response.json();
+      const payload = endpoint.includes("script.google.com/macros/s/")
+        ? await requestJsonp(endpoint, message)
+        : await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+          }).then(response => {
+            if (!response.ok) throw new Error("Agent endpoint unavailable");
+            return response.json();
+          });
       if (typeof payload.answer !== "string") throw new Error("Invalid agent response");
       return payload;
     } catch {
@@ -288,7 +300,13 @@
     const result = await requestAgent(message);
     thinking?.remove();
     addAgentMessage("assistant", agentKnowledge?.sanitizeOutput(result.answer) || "I could not answer that from the approved portfolio facts.");
-    if (agentStatus) agentStatus.textContent = result.mode === "gemini" ? "Gemini response grounded in approved portfolio facts." : "Verified portfolio knowledge. No browsing or actions.";
+    if (agentStatus) {
+      agentStatus.textContent = result.mode === "gemini"
+        ? "Gemini response grounded in approved portfolio facts."
+        : result.mode === "verified_fallback"
+          ? "Secure backend online; add the Gemini key to enable model synthesis."
+          : "Verified portfolio knowledge. No browsing or actions.";
+    }
     if (agentSend) agentSend.disabled = false;
     agentBusy = false;
     agentInput?.focus();
@@ -321,5 +339,4 @@
   const year = $("#year");
   if (year) year.textContent = String(new Date().getFullYear());
 
-  requestAnimationFrame(() => document.body.classList.add("ready"));
 })();
