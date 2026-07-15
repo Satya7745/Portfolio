@@ -5,17 +5,24 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (selector, context = document) => context.querySelector(selector);
   const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
-  window.__SATYA_PORTFOLIO_BUILD__ = "20260715.6";
+  window.__SATYA_PORTFOLIO_BUILD__ = "20260715.9";
   document.body.classList.add("ready");
 
   const header = $("#siteHeader");
   const progress = $("#scrollProgress");
+  const megaName = $(".mega-name");
 
   function updateScroll() {
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     const ratio = scrollable > 0 ? window.scrollY / scrollable : 0;
     if (progress) progress.style.width = `${ratio * 100}%`;
     if (header) header.classList.toggle("scrolled", window.scrollY > 20);
+    if (megaName && !reduceMotion) {
+      const r = megaName.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        megaName.style.translate = `${(0.5 - (window.innerHeight - r.top) / (window.innerHeight + r.height)) * 16}%`;
+      }
+    }
   }
 
   window.addEventListener("scroll", updateScroll, { passive: true });
@@ -60,6 +67,25 @@
       });
     }, { threshold: 0.12, rootMargin: "0px 0px -7% 0px" });
     reveals.forEach(item => revealObserver.observe(item));
+  }
+
+  const riseItems = [];
+  [".project-item", ".expertise-grid > div", ".timeline article", ".approach-grid > div"].forEach(sel => {
+    $$(sel).forEach((el, i) => { el.dataset.rise = String(Math.min(i, 6)); riseItems.push(el); });
+  });
+  if (reduceMotion) {
+    riseItems.forEach(el => el.classList.add("rise-in"));
+  } else {
+    const riseObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        el.style.transitionDelay = `${Number(el.dataset.rise || 0) * 75}ms`;
+        el.classList.add("rise-in");
+        riseObserver.unobserve(el);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+    riseItems.forEach(el => riseObserver.observe(el));
   }
 
   const counters = $$(".counter");
