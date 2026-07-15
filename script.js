@@ -5,7 +5,7 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const $ = (selector, context = document) => context.querySelector(selector);
   const $$ = (selector, context = document) => Array.from(context.querySelectorAll(selector));
-  window.__SATYA_PORTFOLIO_BUILD__ = "20260715.4";
+  window.__SATYA_PORTFOLIO_BUILD__ = "20260715.6";
   document.body.classList.add("ready");
 
   const header = $("#siteHeader");
@@ -89,10 +89,10 @@
       const bounds = hero.getBoundingClientRect();
       const x = (event.clientX - bounds.left) / bounds.width - 0.5;
       const y = (event.clientY - bounds.top) / bounds.height - 0.5;
-      hero.style.setProperty("--hero-x", `${x * 28}px`);
-      hero.style.setProperty("--hero-y", `${y * 20}px`);
-      hero.style.setProperty("--portrait-x", `${x * -12}px`);
-      hero.style.setProperty("--portrait-y", `${y * -9}px`);
+      hero.style.setProperty("--hero-x", `${x * 44}px`);
+      hero.style.setProperty("--hero-y", `${y * 32}px`);
+      hero.style.setProperty("--portrait-x", `${x * -20}px`);
+      hero.style.setProperty("--portrait-y", `${y * -15}px`);
     });
     hero.addEventListener("pointerleave", () => {
       hero.style.setProperty("--hero-x", "0px");
