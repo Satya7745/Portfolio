@@ -195,6 +195,119 @@
     portrait.addEventListener("error", () => portrait.closest(".hero-portrait")?.classList.add("image-error"));
   }
 
+  const credentialsToggle = $("#credentialsToggle");
+  const secondaryCredentials = $$(".credential-secondary");
+  credentialsToggle?.addEventListener("click", () => {
+    const willOpen = credentialsToggle.getAttribute("aria-expanded") !== "true";
+    credentialsToggle.setAttribute("aria-expanded", String(willOpen));
+    secondaryCredentials.forEach(credential => { credential.hidden = !willOpen; });
+    credentialsToggle.innerHTML = willOpen
+      ? 'Show selected credentials <span aria-hidden="true">&minus;</span>'
+      : 'Show all 8 credentials <span aria-hidden="true">+</span>';
+  });
+
+  const portfolioAgent = $("#portfolioAgent");
+  const agentPanel = $("#agentPanel");
+  const agentLauncher = $("#agentLauncher");
+  const agentClose = $("#agentClose");
+  const agentForm = $("#agentForm");
+  const agentInput = $("#agentInput");
+  const agentSend = $("#agentSend");
+  const agentMessages = $("#agentMessages");
+  const agentPrompts = $("#agentPrompts");
+  const agentStatus = $("#agentStatus");
+  const agentKnowledge = window.SATYA_PORTFOLIO_AGENT;
+  let agentBusy = false;
+  let agentRequestCount = 0;
+
+  function agentEndpoint() {
+    const configured = portfolioAgent?.dataset.endpoint?.trim();
+    if (configured) return configured;
+    if (location.hostname.endsWith(".vercel.app") || (location.hostname === "localhost" && location.port === "3000")) return "/api/chat";
+    return "";
+  }
+
+  function setAgentOpen(open) {
+    if (!agentPanel || !agentLauncher) return;
+    agentPanel.hidden = !open;
+    agentLauncher.setAttribute("aria-expanded", String(open));
+    if (open) window.setTimeout(() => agentInput?.focus(), 80);
+  }
+
+  function addAgentMessage(role, text, options) {
+    if (!agentMessages) return null;
+    const message = document.createElement("div");
+    message.className = `agent-message ${role}`;
+    if (options?.thinking) message.classList.add("thinking");
+    const label = document.createElement("span");
+    label.textContent = role === "user" ? "You" : "Agent";
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    message.append(label, paragraph);
+    agentMessages.append(message);
+    agentMessages.scrollTop = agentMessages.scrollHeight;
+    return message;
+  }
+
+  async function requestAgent(message) {
+    const decision = agentKnowledge?.inspect(message);
+    if (!decision) return { answer: "The portfolio knowledge module is unavailable. Please use Satya's contact links instead.", mode: "error" };
+    if (!decision.allowed || decision.reason === "greeting") return { answer: decision.response, mode: "policy" };
+
+    const endpoint = agentEndpoint();
+    if (!endpoint) return { ...agentKnowledge.localAnswer(message), mode: "verified_local" };
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      if (!response.ok) throw new Error("Agent endpoint unavailable");
+      const payload = await response.json();
+      if (typeof payload.answer !== "string") throw new Error("Invalid agent response");
+      return payload;
+    } catch {
+      return { ...agentKnowledge.localAnswer(message), mode: "verified_local" };
+    }
+  }
+
+  async function submitAgentQuestion(question) {
+    const message = String(question || "").trim();
+    if (!message || agentBusy) return;
+    if (agentRequestCount >= 15) {
+      addAgentMessage("assistant", "This session has reached its question limit. You can refresh the page or contact Satya directly.");
+      return;
+    }
+    agentRequestCount += 1;
+    agentBusy = true;
+    if (agentInput) agentInput.value = "";
+    if (agentSend) agentSend.disabled = true;
+    if (agentStatus) agentStatus.textContent = "Checking approved portfolio facts...";
+    addAgentMessage("user", message);
+    const thinking = addAgentMessage("assistant", "Checking verified facts", { thinking: true });
+    const result = await requestAgent(message);
+    thinking?.remove();
+    addAgentMessage("assistant", agentKnowledge?.sanitizeOutput(result.answer) || "I could not answer that from the approved portfolio facts.");
+    if (agentStatus) agentStatus.textContent = result.mode === "gemini" ? "Gemini response grounded in approved portfolio facts." : "Verified portfolio knowledge. No browsing or actions.";
+    if (agentSend) agentSend.disabled = false;
+    agentBusy = false;
+    agentInput?.focus();
+  }
+
+  agentLauncher?.addEventListener("click", () => setAgentOpen(agentPanel?.hidden !== false));
+  agentClose?.addEventListener("click", () => setAgentOpen(false));
+  agentForm?.addEventListener("submit", event => {
+    event.preventDefault();
+    submitAgentQuestion(agentInput?.value);
+  });
+  agentPrompts?.addEventListener("click", event => {
+    const prompt = event.target.closest("[data-question]");
+    if (prompt) submitAgentQuestion(prompt.dataset.question);
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && agentPanel?.hidden === false) setAgentOpen(false);
+  });
+
   const navLinks = $$(".desktop-nav a");
   const sections = $$("main section[id]");
   const sectionObserver = new IntersectionObserver(entries => {

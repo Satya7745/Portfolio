@@ -14,6 +14,7 @@ No frameworks or templates: HTML, CSS, and vanilla JavaScript.
 - Warm charcoal, ivory, rose, and amber palette with no visible blue treatment
 - Fully responsive, accessible, and `prefers-reduced-motion` aware
 - Zero runtime dependencies and no external font requests
+- Closed-domain portfolio agent that works directly on GitHub Pages from a bundled, verified knowledge base
 
 ## Structure
 
@@ -41,11 +42,23 @@ Or open `index.html` directly, or use the VS Code Live Server extension.
 2. Repo **Settings → Pages → Source: `main` branch / root**.
 3. Wait a minute, then visit the published URL.
 
+The included `.nojekyll` file keeps GitHub Pages in plain static-file mode. All production assets use relative URLs, so the site works correctly under the `/Portfolio/` project path.
+
+## Portfolio Agent
+
+The bottom-right agent has two modes:
+
+- **GitHub Pages:** Uses `agent-knowledge.js` locally. It answers only about Satya's approved professional information, makes no network requests, stores no conversation, and rejects unrelated questions, prompt injection, and secrets.
+- **Optional Gemini backend:** `api/chat.js` is a serverless proxy that reads `GEMINI_API_KEY` from a protected environment variable. This requires an external serverless host because GitHub Pages cannot safely hide API keys or execute server code.
+
+Never put a Gemini API key in `index.html`, `script.js`, or any committed config file. The `.gitignore` excludes local environment files.
+
 ## Customize
 
 - Theme variables are at the beginning of `styles.css`.
 - Portfolio copy and case studies live in `index.html`.
 - Role-loop text and interaction timing live in `script.js`.
+- Portfolio-only facts and scope policy live in `agent-knowledge.js`.
 - The portfolio supports `?scoutTheme=light` and `?scoutTheme=dark` for deterministic previews.
 
 ---
